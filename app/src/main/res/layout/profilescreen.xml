@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome back"
+        android:id="@+id/textView9"
+        android:layout_marginTop="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/textView10"
+        android:layout_marginRight="15dp"
+        android:textSize="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User"
+        android:id="@+id/textView10"
+        android:layout_alignTop="@+id/textView9"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="29dp"
+        android:textSize="22dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="You have"
+        android:id="@+id/textView11"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="80dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="#      "
+        android:id="@+id/textView12"
+        android:layout_alignTop="@+id/textView11"
+        android:layout_toEndOf="@+id/textView11"
+        android:layout_marginStart="26dp"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="tokens left"
+        android:id="@+id/textView13"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_toEndOf="@+id/textView12" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In order to recieve a feedback, you must submit a feedback."
+        android:id="@+id/textView14"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="20dp"
+        android:layout_alignEnd="@+id/textView13"
+        android:layout_alignStart="@+id/textView11"
+        android:textSize="15dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Give Feedback"
+        android:id="@+id/button3"
+        android:layout_marginTop="29dp"
+        android:layout_marginRight="0dp"
+        android:layout_below="@+id/textView14"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_marginLeft="-15dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use tokens"
+        android:id="@+id/button4"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_toEndOf="@+id/textView12" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="My Pronunciations"
+        android:id="@+id/textView15"
+        android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="22dp" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/textView15"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>
