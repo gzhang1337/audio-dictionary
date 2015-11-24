@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Submit a Pronunciation"
+        android:id="@+id/textView30"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pronWord"
+        android:layout_below="@+id/textView30"
+        android:layout_marginTop="26dp"
+        android:text="Write the pronunciating word here"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Recording"
+        android:id="@+id/startRecord"
+        android:textAllCaps="false"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/timer"
+        android:layout_alignStart="@+id/pronWord" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Playback"
+        android:id="@+id/playBButton"
+        android:textAllCaps="false"
+        android:layout_above="@+id/checckEng"
+        android:layout_alignEnd="@+id/pronWord"
+        android:layout_marginRight="15dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:id="@+id/checckEng"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/startRecord"
+        android:layout_alignStart="@+id/submitPron" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spanish"
+        android:id="@+id/checkSpan"
+        android:layout_alignTop="@+id/checckEng"
+        android:layout_alignEnd="@+id/submitPron" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Pronunciation"
+        android:id="@+id/submitPron"
+        android:layout_below="@+id/checckEng"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:textAllCaps="false"
+        android:textSize="16dp" />
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer"
+        android:layout_marginLeft="155dp"
+        android:textSize="40dp"
+        android:textIsSelectable="false"
+        android:layout_below="@+id/pronWord"
+        android:layout_alignStart="@+id/pronWord"
+        android:layout_alignEnd="@+id/pronWord"
+        android:layout_marginRight="120dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Recording"
+        android:id="@+id/stopRecord"
+        android:layout_above="@+id/checckEng"
+        android:layout_alignEnd="@+id/timer"
+        android:textAllCaps="false"
+        android:layout_marginRight="-9dp" />
+</RelativeLayout>

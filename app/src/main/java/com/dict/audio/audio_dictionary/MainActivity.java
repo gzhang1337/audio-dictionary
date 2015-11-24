@@ -16,15 +16,18 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Button login = (Button) findViewById(R.id.login_button);
-        Button signup = (Button) findViewById(R.id.signup_button);
+        Button login = (Button) findViewById(R.id.logIn);
+        Button signup = (Button) findViewById(R.id.signUp);
         login.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TextView userId = (TextView) findViewById(R.id.userId);
+                        TextView userId = (TextView) findViewById(R.id.userID);
                         TextView pw = (TextView) findViewById(R.id.password);
                         //TODO authenticate user and start acitviity based on results of authetnitcation
+                        Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                        intent.putExtra("UserID", userId.getText());
+                        startActivity(intent);
                     }
                 }
         );
