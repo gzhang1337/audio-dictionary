@@ -128,7 +128,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="Sign Up"
         android:id="@+id/button"
         android:layout_below="@+id/englishCheck"
         android:layout_alignStart="@+id/englishCheck"
@@ -139,7 +139,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="clear"
-        android:id="@+id/button2"
+        android:id="@+id/clearbutton"
         android:layout_alignBottom="@+id/button"
         android:layout_alignEnd="@+id/textView8" />
 

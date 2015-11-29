@@ -4,6 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -11,6 +17,39 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupscreen);
+        Button signUp = (Button) findViewById(R.id.signUp);
+        signUp.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView userID = (TextView) findViewById(R.id.userID);
+                        TextView passWord = (TextView) findViewById(R.id.password);
+                        TextView confirmPw = (TextView) findViewById(R.id.cPassword);
+                        TextView email = (TextView) findViewById(R.id.email);
+                        if (passWord.getText().equals(confirmPw.getText())) {
+                            // TODO connecto to database and validate the email has not been registered to another id
+                            Toast.makeText(getApplicationContext(),"Sign up successful",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Passwords do not match",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+        Button clear = (Button) findViewById(R.id.clearbutton);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView userID = (TextView) findViewById(R.id.userID);
+                TextView passWord = (TextView) findViewById(R.id.password);
+                TextView confirmPw = (TextView) findViewById(R.id.cPassword);
+                TextView email = (TextView) findViewById(R.id.email);
+                userID.setText("");
+                passWord.setText("");
+                confirmPw.setText("");
+                email.setText("");
+            }
+        });
     }
 
     @Override

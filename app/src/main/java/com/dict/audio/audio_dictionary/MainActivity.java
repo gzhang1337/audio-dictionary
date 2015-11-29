@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+    public final static String USER_ID = "UserID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
                         TextView pw = (TextView) findViewById(R.id.password);
                         //TODO authenticate user and start acitviity based on results of authetnitcation
                         Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
-                        intent.putExtra("UserID", userId.getText());
+                        intent.putExtra(USER_ID, userId.getText());
                         startActivity(intent);
                     }
                 }

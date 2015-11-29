@@ -1,9 +1,12 @@
 package com.dict.audio.audio_dictionary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextDirectionHeuristic;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -11,6 +14,12 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profilescreen);
+        Intent starter = getIntent();
+        if (starter != null) {
+            TextView userName = (TextView) findViewById(R.id.username);
+            userName.setText(starter.getStringExtra(MainActivity.USER_ID));
+            //TODO query database for number of tokens current user has
+        }
     }
 
     @Override
