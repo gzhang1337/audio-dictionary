@@ -1,12 +1,20 @@
 package com.dict.audio.audio_dictionary;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextDirectionHeuristic;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+/**
+ *  This activity is after the user sign in.
+ *  The user may give a feedback or receive a feedback.
+ *  This page shows the user ID and the number of tokens it has.
+ *  This page also shows the list of submissions that can be clicked to view the feedback.
+ */
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -18,7 +26,34 @@ public class ProfileActivity extends AppCompatActivity {
         if (starter != null) {
             TextView userName = (TextView) findViewById(R.id.username);
             userName.setText(starter.getStringExtra(MainActivity.USER_ID));
+
+
             //TODO query database for number of tokens current user has
+
+
+            //button for giving a feedback and receiving a feedback
+            Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
+            Button getFeedback = (Button) findViewById(R.id.submitFeedback);
+
+            giveFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getApplicationContext(), FeedbackOneActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            getFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            //TODO need a view adapter to show all of user's pronunciation
         }
     }
 
