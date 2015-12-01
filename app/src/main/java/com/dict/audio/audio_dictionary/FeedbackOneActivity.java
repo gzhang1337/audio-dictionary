@@ -25,7 +25,7 @@ public class FeedbackOneActivity extends AppCompatActivity {
         setContentView(R.layout.feedbackscreennumone);
 
         Intent starter = getIntent();
-
+    // hi
         if (starter != null) {
 
 
