@@ -1,15 +1,15 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 /**
  * Created by raekang on 11/29/15.
  */
-public class FeedbackOneActivity extends AppCompatActivity {
+public class FeedbackOneActivity extends Activity {
 
     /* This activity is is from the profile screen. The user wants to give a feedback.
      * This screen shows the list of all the submissions by other users.

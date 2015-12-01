@@ -1,0 +1,12 @@
+
+*.properties
+
+*.lock
+
+*.bin
+
+.idea/.name
+
+*.xml
+
+*.iml
