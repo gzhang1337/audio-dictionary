@@ -1,11 +1,17 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.IOException;
 
 /**
  * This activity is from ProfileActivity. User wants to receive a feedback.
@@ -15,9 +21,14 @@ import android.widget.Button;
  * By clicking the submit button, it will the data to the server
  *
  */
-public class SubmitActivity extends AppCompatActivity{
-
-    String whatYouAreSaying ="";
+public class SubmitActivity extends Activity {
+    private MediaPlayer mPlayer = null;
+    private MediaRecorder mRecorder = null;
+    private Button recordButton = null;
+    private Button playButton = null;
+    private String whatYouAreSaying ="";
+    private boolean mStartRecord = true;
+    private boolean mStartPlay = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +38,34 @@ public class SubmitActivity extends AppCompatActivity{
         whatYouAreSaying = findViewById(R.id.pronWord).toString();
 
         //TODO how to record an audio.
+        recordButton = (Button) findViewById(R.id.startRecord);
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mStartRecord) {
+                    recordButton.setText("Stop recording");
+                    startRecording();
+                }
+                else {
+                    recordButton.setText("Start Recording");
+                    stopRecording();
+                }
+            }
+        });
+        playButton = (Button) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mStartPlay) {
+                    playButton.setText("Stop Playing");
+                    startPlaying();
+                }
+                else {
+                    playButton.setText("Playback");
+                    stopPlaying();
+                }
+            }
+        });
 
         //TODO playback an audio
 
@@ -64,5 +103,38 @@ public class SubmitActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(MainActivity.TAG,"prepare failed");
+        }
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+    private void startPlaying() {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(MainActivity.TAG, "prepare() failed");
+        }
+    }
+    private void stopPlaying() {
+        mPlayer.release();
+        mPlayer = null;
     }
 }

@@ -32,17 +32,17 @@
         android:textAllCaps="false"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/timer"
-        android:layout_alignStart="@+id/pronWord" />
+        android:layout_alignStart="@+id/checkSpan" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Playback"
-        android:id="@+id/playBButton"
+        android:id="@+id/playButton"
         android:textAllCaps="false"
-        android:layout_above="@+id/checckEng"
-        android:layout_alignEnd="@+id/pronWord"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="15dp"
+        android:layout_alignTop="@+id/startRecord"
+        android:layout_toStartOf="@+id/startRecord" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -84,13 +84,4 @@
         android:layout_alignEnd="@+id/pronWord"
         android:layout_marginRight="120dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop Recording"
-        android:id="@+id/stopRecord"
-        android:layout_above="@+id/checckEng"
-        android:layout_alignEnd="@+id/timer"
-        android:textAllCaps="false"
-        android:layout_marginRight="-9dp" />
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
     public final static String USER_ID = "UserID";
+    public final static String TAG = "Audio-dict";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
