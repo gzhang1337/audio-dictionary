@@ -1,6 +1,6 @@
 package com.dict.audio.audio_dictionary;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,9 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,21 +1,25 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-/**
- * Created by raekang on 11/29/15.
- */
-public class FeedbackOneActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
 
-    /* This activity is is from the profile screen. The user wants to give a feedback.
+
+public class FeedbackOneActivity extends ListActivity {
+
+    /* This activity is from the profile screen. The user wants to give a feedback.
      * This screen shows the list of all the submissions by other users.
      * All the items are clickable. Clicking an item will lead to FeedbackTwoActivity
      */
-
+    private List<String> listVals;
 
     //TODO needs a layout adapter to show the list. We need to get the list from the server.
 
@@ -24,13 +28,9 @@ public class FeedbackOneActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedbackscreennumone);
 
-        Intent starter = getIntent();
-    // hi
-        if (starter != null) {
-
-
-        }
-
+        listVals = getDataFromDb();
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -54,4 +54,20 @@ public class FeedbackOneActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onListItemClick(ListView list, View view, int position, long id) {
+        super.onListItemClick(list, view, position, id);
+        String selectedItem = (String) getListView().getItemAtPosition(position);
+        Intent intent = new Intent(this,FeedbackTwoActivity.class);
+        intent.putExtra("Word",selectedItem);
+        startActivity(intent);
+    }
+    private List<String> getDataFromDb() {
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("fork");
+        result.add("you");
+        result.add("guys");
+        return result;
+    }
+
 }

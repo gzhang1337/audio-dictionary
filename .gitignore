@@ -5,8 +5,8 @@
 
 *.bin
 
-.idea/.name
-
-*.xml
+.idea/*
 
 *.iml
+
+build/*

@@ -67,8 +67,6 @@ public class SubmitActivity extends Activity {
             }
         });
 
-        //TODO playback an audio
-
         //TODO checkbox for ENG or SPN
 
 

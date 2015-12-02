@@ -24,8 +24,8 @@ public class MainActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TextView userId = (TextView) findViewById(R.id.userID);
-                        TextView pw = (TextView) findViewById(R.id.password);
+                        TextView userId = (TextView) findViewById(R.id.userIDMain);
+                        TextView pw = (TextView) findViewById(R.id.passwordMain);
                         //TODO authenticate user and start acitviity based on results of authetnitcation
                         Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
                         intent.putExtra(USER_ID, userId.getText());

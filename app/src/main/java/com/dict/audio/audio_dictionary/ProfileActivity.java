@@ -1,8 +1,8 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,7 @@ import android.widget.TextView;
  *  This page also shows the list of submissions that can be clicked to view the feedback.
  */
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
-            Button getFeedback = (Button) findViewById(R.id.submitFeedback);
+            Button getFeedback = (Button) findViewById(R.id.useTokens);
 
             giveFeedback.setOnClickListener(new View.OnClickListener() {
                 @Override

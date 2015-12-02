@@ -1,7 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +11,7 @@ import android.view.MenuItem;
  * The user writes the audio as a string.
  * The user may write a feedback
  */
-public class FeedbackTwoActivity extends AppCompatActivity{
+public class FeedbackTwoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

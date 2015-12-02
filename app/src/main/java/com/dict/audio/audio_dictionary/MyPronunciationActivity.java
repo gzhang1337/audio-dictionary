@@ -1,7 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +11,7 @@ import android.view.MenuItem;
  * This activity shows the upvote and downvote.
  * This activity shows the list of feedbacks from other people
  */
-public class MyPronunciationActivity extends AppCompatActivity {
+public class MyPronunciationActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
