@@ -25,6 +25,22 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name=".MyPronunciationActivity"
+            android:label="@string/title_activity_pronoun" >
+        </activity>
+        <activity
+            android:name=".SubmitActivity"
+            android:label="@string/title_activity_submit" >
+        </activity>
+        <activity
+            android:name=".FeedbackOneActivity"
+            android:label="@string/title_activity_feedback_one" >
+        </activity>
+        <activity
+            android:name=".FeedbackTwoActivity"
+            android:label="@string/title_activity_feedback_two" >
+        </activity>
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class ProfileActivity extends Activity {
         Intent starter = getIntent();
         if (starter != null) {
             TextView userName = (TextView) findViewById(R.id.username);
-            userName.setText(starter.getStringExtra(MainActivity.USER_ID));
+            userName.setText(starter.getStringExtra(MainActivity.USER_ID).toString());
 
 
             //TODO query database for number of tokens current user has

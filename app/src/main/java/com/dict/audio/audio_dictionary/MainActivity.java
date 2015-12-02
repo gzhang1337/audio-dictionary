@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     public final static String USER_ID = "UserID";
@@ -27,9 +28,14 @@ public class MainActivity extends Activity {
                         TextView userId = (TextView) findViewById(R.id.userIDMain);
                         TextView pw = (TextView) findViewById(R.id.passwordMain);
                         //TODO authenticate user and start acitviity based on results of authetnitcation
-                        Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
-                        intent.putExtra(USER_ID, userId.getText());
-                        startActivity(intent);
+                        if (userId.getText().toString() != null || pw.getText().toString() != null) {
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            intent.putExtra(USER_ID, userId.getText().toString());
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Please provide username and password",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         );
