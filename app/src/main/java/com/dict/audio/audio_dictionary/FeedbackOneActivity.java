@@ -60,7 +60,7 @@ public class FeedbackOneActivity extends ListActivity {
         String selectedItem = (String) getListView().getItemAtPosition(position);
         Intent intent = new Intent(this,FeedbackTwoActivity.class);
         intent.putExtra("Word",selectedItem);
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
     private List<String> getDataFromDb() {
         ArrayList<String> result = new ArrayList<String>();

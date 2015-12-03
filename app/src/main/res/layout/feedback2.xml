@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/playImageButton"
-        android:background="@drawable/playbutton"
+        android:background="@drawable/btn_play_normal"
         android:layout_below="@+id/pronName"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"

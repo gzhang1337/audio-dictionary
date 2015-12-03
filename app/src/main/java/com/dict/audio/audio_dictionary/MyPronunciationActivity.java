@@ -1,6 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
  * This activity shows the list of feedbacks from other people
  */
 public class MyPronunciationActivity extends Activity {
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
