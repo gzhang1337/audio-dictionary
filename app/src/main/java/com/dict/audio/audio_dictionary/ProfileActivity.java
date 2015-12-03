@@ -1,13 +1,17 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  This activity is after the user sign in.
@@ -16,7 +20,9 @@ import android.widget.TextView;
  *  This page also shows the list of submissions that can be clicked to view the feedback.
  */
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends ListActivity {
+
+    private List<String> listVals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,11 @@ public class ProfileActivity extends Activity {
                 }
             });
 
-            //TODO need a view adapter to show all of user's pronunciation
+            //TODO need to check if this works (reference Placebages)
+
+            listVals = getDataFromDb();
+            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.listOfMyPron,listVals);
+            setListAdapter(mAdapter);
         }
     }
 
@@ -77,5 +87,13 @@ public class ProfileActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private List<String> getDataFromDb() {
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("fork");
+        result.add("you");
+        result.add("guys");
+        return result;
     }
 }

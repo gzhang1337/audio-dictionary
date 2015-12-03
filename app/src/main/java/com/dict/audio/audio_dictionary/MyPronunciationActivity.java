@@ -1,10 +1,14 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity is after the user clicks an item from the profile screen.
@@ -12,19 +16,31 @@ import android.view.MenuItem;
  * This activity shows the upvote and downvote.
  * This activity shows the list of feedbacks from other people
  */
-public class MyPronunciationActivity extends Activity {
+public class MyPronunciationActivity extends ListActivity {
     private MediaPlayer mPlayer;
+
+    private List<String> listVals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypronscreen);
 
+
+        //TODO need to check if this works (reference Placebages)
+        listVals = getDataFromDb();
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.feedbackView,listVals);
+        setListAdapter(mAdapter);
+
+
+
         //TODO specific word or phrase needs to be passed as the title
 
         //TODO upvote and downvote needs to obtained from the server
 
         //TODO feedbacks need to be obtained from the server to be shown.
+
+
 
     }
 
@@ -48,5 +64,13 @@ public class MyPronunciationActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private List<String> getDataFromDb() {
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("fork");
+        result.add("you");
+        result.add("guys");
+        return result;
     }
 }
