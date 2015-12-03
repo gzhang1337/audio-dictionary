@@ -1,13 +1,18 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
+
+import java.util.List;
 
 /**
  *  This activity is after the user sign in.
@@ -16,8 +21,11 @@ import android.widget.TextView;
  *  This page also shows the list of submissions that can be clicked to view the feedback.
  */
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends ListActivity {
 
+    private ArrayAdapter<String> mAdapter;
+    private List<String> listVals;
+    private UserDatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +38,7 @@ public class ProfileActivity extends Activity {
 
             //TODO query database for number of tokens current user has
 
-
+            db = UserDatabaseHelper.getInstance(this);
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
             Button getFeedback = (Button) findViewById(R.id.useTokens);
@@ -52,8 +60,8 @@ public class ProfileActivity extends Activity {
                     startActivity(intent);
                 }
             });
-
-            //TODO need a view adapter to show all of user's pronunciation
+            listVals = db.getPronouns(userName.getText().toString());
+            mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         }
     }
 
