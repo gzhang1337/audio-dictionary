@@ -5,13 +5,16 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 
 import java.io.IOException;
+import java.util.Timer;
 
 /**
  * This activity is from ProfileActivity. User wants to receive a feedback.
@@ -22,53 +25,58 @@ import java.io.IOException;
  *
  */
 public class SubmitActivity extends Activity {
-    private MediaPlayer mPlayer = null;
-    private MediaRecorder mRecorder = null;
+    private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
     private Button recordButton = null;
     private Button playButton = null;
-    private String whatYouAreSaying ="";
-    private boolean mStartRecord = true;
-    private boolean mStartPlay = true;
-
+    private String outputFile = null;
+    private boolean recording = false;
+    private boolean playing = false;
+    private Chronometer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitscreen);
-
-        whatYouAreSaying = findViewById(R.id.pronWord).toString();
-
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() +"/record.3gp";
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
+        timer = (Chronometer) findViewById(R.id.timer);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStartRecord) {
+                if (!recording) {
+                    timer.setBase(SystemClock.elapsedRealtime());
                     recordButton.setText("Stop recording");
                     startRecording();
+                    recording = true;
+                    timer.start();
                 }
-                else {
+                else {//stop recording
                     recordButton.setText("Start Recording");
                     stopRecording();
+                    recording = false;
+                    playButton.setEnabled(true);
+                    timer.stop();
                 }
             }
         });
         playButton = (Button) findViewById(R.id.playButton);
+        playButton.setEnabled(false);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStartPlay) {
+                if (!playing) {
                     playButton.setText("Stop Playing");
                     startPlaying();
+                    playing = true;
                 }
                 else {
                     playButton.setText("Playback");
                     stopPlaying();
+                    playing = false;
                 }
             }
         });
-
-        //TODO checkbox for ENG or SPN
-
 
         //submit button
         Button submit = (Button) findViewById(R.id.submitPron);
@@ -106,7 +114,7 @@ public class SubmitActivity extends Activity {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+        mRecorder.setOutputFile(outputFile);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
             mRecorder.prepare();
@@ -124,7 +132,7 @@ public class SubmitActivity extends Activity {
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+            mPlayer.setDataSource(outputFile);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
@@ -132,6 +140,9 @@ public class SubmitActivity extends Activity {
         }
     }
     private void stopPlaying() {
+        if (!mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
         mPlayer.release();
         mPlayer = null;
     }

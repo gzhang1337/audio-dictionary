@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 //implemenet helper I've been use this guide
 // https://github.com/codepath/android_guides/wiki/Local-Databases-with-SQLiteOpenHelper
 public class UserDatabaseHelper extends SQLiteOpenHelper {
@@ -62,7 +65,22 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //unimplemented
     }
-    void deleteDatabase() {
+    private void deleteDatabase() {
         mContext.deleteDatabase(NAME);
+    }
+
+    public ArrayList<String> getPronouns(String userId) {
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("fork");
+        result.add("you");
+        result.add("guys");
+        return result;
+    }
+    public ArrayList<String> getNeedFeedBack() {
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("I");
+        result.add("Love");
+        result.add("balls");
+        return result;
     }
 }

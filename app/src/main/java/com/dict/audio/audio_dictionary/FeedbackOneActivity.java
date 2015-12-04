@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +22,17 @@ public class FeedbackOneActivity extends ListActivity {
      * All the items are clickable. Clicking an item will lead to FeedbackTwoActivity
      */
     private List<String> listVals;
-
+    ArrayAdapter<String> mAdapter;
+    private UserDatabaseHelper db;
     //TODO needs a layout adapter to show the list. We need to get the list from the server.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedbackscreennumone);
-
-        listVals = getDataFromDb();
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
+        db = UserDatabaseHelper.getInstance(this);
+        listVals = db.getNeedFeedBack();
+        mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         setListAdapter(mAdapter);
     }
 
@@ -47,7 +50,6 @@ public class FeedbackOneActivity extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -59,15 +61,7 @@ public class FeedbackOneActivity extends ListActivity {
         super.onListItemClick(list, view, position, id);
         String selectedItem = (String) getListView().getItemAtPosition(position);
         Intent intent = new Intent(this,FeedbackTwoActivity.class);
-        intent.putExtra("Word",selectedItem);
-        startActivityForResult(intent,1);
+        intent.putExtra("Word", selectedItem);
+        startActivityForResult(intent, 1);
     }
-    private List<String> getDataFromDb() {
-        ArrayList<String> result = new ArrayList<String>();
-        result.add("fork");
-        result.add("you");
-        result.add("guys");
-        return result;
-    }
-
 }
