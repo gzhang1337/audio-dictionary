@@ -45,6 +45,7 @@ public class SubmitActivity extends Activity {
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
         seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
+        seekBar.setClickable(false);
 
 
         recordButton.setOnClickListener(new View.OnClickListener() {
