@@ -1,10 +1,15 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
-import android.media.MediaPlayer;
+import android.content.Intent;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
+import android.widget.ArrayAdapter;
+import java.util.List;
 
 /**
  * This activity is after the user clicks an item from the profile screen.
@@ -12,13 +17,27 @@ import android.view.MenuItem;
  * This activity shows the upvote and downvote.
  * This activity shows the list of feedbacks from other people
  */
-public class MyPronunciationActivity extends Activity {
-    private MediaPlayer mPlayer;
-
+public class MyPronunciationActivity extends ListActivity {
+    private List<String> listVals;
+    UserDatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypronscreen);
+        Intent starter = getIntent();
+        if (starter!=null) {
+            TextView theWord = (TextView) findViewById(R.id.pronWord);
+            theWord.setText(starter.getStringExtra("Word").toString());
+            db = UserDatabaseHelper.getInstance(this);
+            //TODO populate the display feedback and vote up and vote down
+            listVals = db.getPronouns("DELETEME");
+            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
+            setListAdapter(mAdapter);
+        }
+        else {
+            throw new IllegalStateException("Pronunciation Activity not started with intent");
+        }
+        //TODO need to check if this works (reference Placebages)
 
         //TODO specific word or phrase needs to be passed as the title
 

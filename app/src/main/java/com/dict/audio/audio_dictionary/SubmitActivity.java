@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This activity is from ProfileActivity. User wants to receive a feedback.
@@ -22,41 +25,50 @@ import java.io.IOException;
  *
  */
 public class SubmitActivity extends Activity {
-    private MediaPlayer mPlayer = null;
-    private MediaRecorder mRecorder = null;
+    private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
     private Button recordButton = null;
     private Button playButton = null;
-    private String whatYouAreSaying ="";
-    private boolean mStartRecord = true;
-    private boolean mStartPlay = true;
+    private String outputFile = null;
+    private boolean recording = false;
+    private boolean playing = false;
+    private Timer timer;
+    private SeekBar seekBar;
+    private int duration;
+    private final int MAX_RECORD_TIME = 60000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitscreen);
-
-        whatYouAreSaying = findViewById(R.id.pronWord).toString();
-
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() +"/record.3gp";
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
+        seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
+        seekBar.setMax(MAX_RECORD_TIME);
+        seekBar.setClickable(false);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStartRecord) {
+                if (!recording) {
                     recordButton.setText("Stop recording");
                     startRecording();
+                    recording = true;
                 }
-                else {
+                else {//stop recording
                     recordButton.setText("Start Recording");
                     stopRecording();
+                    recording = false;
+                    playButton.setEnabled(true);
                 }
             }
         });
         playButton = (Button) findViewById(R.id.playButton);
+        playButton.setEnabled(false);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStartPlay) {
+                if (!playing) {
                     playButton.setText("Stop Playing");
                     startPlaying();
                 }
@@ -66,9 +78,6 @@ public class SubmitActivity extends Activity {
                 }
             }
         });
-
-        //TODO checkbox for ENG or SPN
-
 
         //submit button
         Button submit = (Button) findViewById(R.id.submitPron);
@@ -106,33 +115,78 @@ public class SubmitActivity extends Activity {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+        mRecorder.setOutputFile(outputFile);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        seekBar.setMax(MAX_RECORD_TIME);
+        seekBar.setProgress(0);
         try {
             mRecorder.prepare();
         } catch (IOException e) {
-            Log.e(MainActivity.TAG,"prepare failed");
+            Log.e(MainActivity.TAG, "prepare failed");
         }
         mRecorder.start();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int p = seekBar.getProgress();
+                p += 1000;
+                seekBar.setProgress(p);
+            }
+        }, 1, 1000);
     }
-
     private void stopRecording() {
         mRecorder.stop();
+        timer.cancel();
         mRecorder.release();
         mRecorder = null;
     }
     private void startPlaying() {
+        playing = true;
+        seekBar.setProgress(0);
         mPlayer = new MediaPlayer();
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playButton.setText("Playback");
+                stopPlaying();
+            }
+        });
         try {
-            mPlayer.setDataSource(Environment.getExternalStorageDirectory().getAbsolutePath() + "temp.3gp");
+            mPlayer.setDataSource(outputFile);
+            duration = mPlayer.getDuration();
+            seekBar.setMax(duration);
             mPlayer.prepare();
             mPlayer.start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int currentPosition = 0;
+                    while(currentPosition<duration && mPlayer != null) {
+                        try {
+                            Thread.sleep(1000);
+                        }
+                        catch (InterruptedException e) {
+                            return;
+                        }
+                        if(mPlayer!=null) {
+                            currentPosition = mPlayer.getCurrentPosition();
+                            seekBar.setProgress(currentPosition);
+                        }
+                    }
+                }
+            }).start();
         } catch (IOException e) {
             Log.e(MainActivity.TAG, "prepare() failed");
         }
     }
     private void stopPlaying() {
+        if (!mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
+        seekBar.setProgress(0);
         mPlayer.release();
         mPlayer = null;
+        playing = false;
     }
 }

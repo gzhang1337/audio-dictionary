@@ -17,10 +17,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/playImageButton"
         android:background="@drawable/btn_play_normal"
-        android:layout_below="@+id/pronName"
-        android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/seekBarPlay"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,4 +62,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
         android:textAllCaps="false"/>
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarPlay"
+        android:layout_below="@+id/pronName"
+        android:layout_alignStart="@+id/textYouHear"
+        android:layout_marginTop="27dp"
+        android:layout_alignEnd="@+id/textYouHear"
+        android:indeterminate="false" />
 </RelativeLayout>

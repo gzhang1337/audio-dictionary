@@ -30,8 +30,7 @@
         android:text="Start Recording"
         android:id="@+id/startRecord"
         android:textAllCaps="false"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/timer"
+        android:layout_below="@+id/seekBarRecord"
         android:layout_alignStart="@+id/checkSpan" />
 
     <Button
@@ -41,17 +40,18 @@
         android:id="@+id/playButton"
         android:textAllCaps="false"
         android:layout_marginRight="15dp"
-        android:layout_alignTop="@+id/startRecord"
-        android:layout_toStartOf="@+id/startRecord" />
+        android:layout_alignBaseline="@+id/startRecord"
+        android:layout_alignBottom="@+id/startRecord"
+        android:layout_alignStart="@+id/textView30" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="English"
         android:id="@+id/checckEng"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/startRecord"
-        android:layout_alignStart="@+id/submitPron" />
+        android:layout_below="@+id/playButton"
+        android:layout_alignStart="@+id/submitPron"
+        android:layout_marginTop="31dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -66,22 +66,20 @@
         android:layout_height="wrap_content"
         android:text="Submit Pronunciation"
         android:id="@+id/submitPron"
-        android:layout_below="@+id/checckEng"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
         android:textAllCaps="false"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="95dp" />
 
-    <Chronometer
+    <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/timer"
-        android:layout_marginLeft="155dp"
-        android:textSize="40dp"
-        android:textIsSelectable="false"
+        android:id="@+id/seekBarRecord"
         android:layout_below="@+id/pronWord"
+        android:layout_marginTop="33dp"
         android:layout_alignStart="@+id/pronWord"
         android:layout_alignEnd="@+id/pronWord"
-        android:layout_marginRight="120dp" />
+        android:indeterminate="false" />
 
 </RelativeLayout>
