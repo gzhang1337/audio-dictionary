@@ -1,10 +1,14 @@
 package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
 
 /**
  * This activity is after the user clicks an item from the profile screen.
@@ -13,19 +17,22 @@ import android.view.MenuItem;
  * This activity shows the list of feedbacks from other people
  */
 public class MyPronunciationActivity extends Activity {
-    private MediaPlayer mPlayer;
+    private UserDatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypronscreen);
-
-        //TODO specific word or phrase needs to be passed as the title
-
-        //TODO upvote and downvote needs to obtained from the server
-
-        //TODO feedbacks need to be obtained from the server to be shown.
-
+        Intent starter = getIntent();
+        if (starter!=null) {
+            TextView theWord = (TextView) findViewById(R.id.pronWord);
+            theWord.setText(starter.getStringExtra("Word").toString());
+            db = UserDatabaseHelper.getInstance(this);
+            //TODO populate the display feedback and vote up and vote down
+        }
+        else {
+            throw new IllegalStateException("Pronunciation Activity not started with intent");
+        }
     }
 
     @Override

@@ -16,7 +16,7 @@ public class SignUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupscreen);
-        Button signUp = (Button) findViewById(R.id.signUp);
+        Button signUp = (Button) findViewById(R.id.finishSignUp);
         signUp.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -25,7 +25,7 @@ public class SignUpActivity extends Activity {
                         TextView passWord = (TextView) findViewById(R.id.password);
                         TextView confirmPw = (TextView) findViewById(R.id.cPassword);
                         TextView email = (TextView) findViewById(R.id.email);
-                        if (passWord.getText().equals(confirmPw.getText())) {
+                        if (passWord.getText().toString().equals(confirmPw.getText().toString())) {
                             // TODO connecto to database and validate the email has not been registered to another id
                             Toast.makeText(getApplicationContext(),"Sign up successful",Toast.LENGTH_LONG).show();
                         }
