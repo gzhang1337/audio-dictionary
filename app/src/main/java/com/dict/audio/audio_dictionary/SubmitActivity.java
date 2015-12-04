@@ -35,7 +35,7 @@ public class SubmitActivity extends Activity {
     private Timer timer;
     private SeekBar seekBar;
     private int duration;
-    private int amtToUpdate;
+    private final int MAX_RECORD_TIME = 60000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class SubmitActivity extends Activity {
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
         seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
-
+        seekBar.setMax(MAX_RECORD_TIME);
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +71,10 @@ public class SubmitActivity extends Activity {
                 if (!playing) {
                     playButton.setText("Stop Playing");
                     startPlaying();
-                    playing = true;
                 }
                 else {
                     playButton.setText("Playback");
                     stopPlaying();
-                    playing = false;
                 }
             }
         });
@@ -119,7 +117,8 @@ public class SubmitActivity extends Activity {
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(outputFile);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
+        seekBar.setMax(MAX_RECORD_TIME);
+        seekBar.setProgress(0);
         try {
             mRecorder.prepare();
         } catch (IOException e) {
@@ -131,36 +130,52 @@ public class SubmitActivity extends Activity {
             @Override
             public void run() {
                 int p = seekBar.getProgress();
-                p += 1;
+                p += 1000;
                 seekBar.setProgress(p);
             }
-        },null);
+        }, 1, 1000);
     }
     private void stopRecording() {
         mRecorder.stop();
+        timer.cancel();
         mRecorder.release();
         mRecorder = null;
-        duration = seekBar.getProgress();
-        amtToUpdate = duration / 100;
-        seekBar.setProgress(0);
-
     }
     private void startPlaying() {
+        playing = true;
+        seekBar.setProgress(0);
         mPlayer = new MediaPlayer();
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playButton.setText("Playback");
+                stopPlaying();
+            }
+        });
         try {
             mPlayer.setDataSource(outputFile);
+            duration = mPlayer.getDuration();
+            seekBar.setMax(duration);
             mPlayer.prepare();
             mPlayer.start();
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int p = seekBar.getProgress();
-                    p += 1;
-                    seekBar.setProgress(p);
+                    int currentPosition = 0;
+                    while(currentPosition<duration && mPlayer != null) {
+                        try {
+                            Thread.sleep(1000);
+                        }
+                        catch (InterruptedException e) {
+                            return;
+                        }
+                        if(mPlayer!=null) {
+                            currentPosition = mPlayer.getCurrentPosition();
+                            seekBar.setProgress(currentPosition);
+                        }
+                    }
                 }
-            },amtToUpdate);
-
+            }).start();
         } catch (IOException e) {
             Log.e(MainActivity.TAG, "prepare() failed");
         }
@@ -169,7 +184,9 @@ public class SubmitActivity extends Activity {
         if (!mPlayer.isPlaying()) {
             mPlayer.stop();
         }
+        seekBar.setProgress(0);
         mPlayer.release();
         mPlayer = null;
+        playing = false;
     }
 }

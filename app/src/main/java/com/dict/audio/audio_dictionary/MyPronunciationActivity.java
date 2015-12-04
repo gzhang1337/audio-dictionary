@@ -1,9 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.app.ListActivity;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +9,6 @@ import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
 import android.widget.ArrayAdapter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +31,7 @@ public class MyPronunciationActivity extends ListActivity {
             db = UserDatabaseHelper.getInstance(this);
             //TODO populate the display feedback and vote up and vote down
             listVals = db.getPronouns("DELETEME");
-            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.feedbackView,listVals);
+            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }
         else {
