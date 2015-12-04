@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
-
 import java.util.List;
 
 /**
@@ -90,10 +88,10 @@ public class ProfileActivity extends ListActivity {
     }
     @Override
     protected void onListItemClick(ListView list, View view, int position, long id) {
-        super.onListItemClick(list,view,position,id);
+        super.onListItemClick(list, view, position, id);
         String selectedItem = (String) getListView().getItemAtPosition(position);
-        Intent intent = new Intent(this,MyPronunciationActivity.class);
-        intent.putExtra("Word",selectedItem);
-        startActivityForResult(intent,1);
+        Intent intent = new Intent(this, MyPronunciationActivity.class);
+        intent.putExtra("Word", selectedItem);
+        startActivityForResult(intent, 1);
     }
 }
