@@ -46,7 +46,7 @@ public class SubmitActivity extends Activity {
         recordButton = (Button) findViewById(R.id.startRecord);
         seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
         seekBar.setMax(MAX_RECORD_TIME);
-
+        seekBar.setClickable(false);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
