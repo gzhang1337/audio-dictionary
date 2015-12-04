@@ -2,7 +2,6 @@ package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This activity is after the user clicks which item to be give back to.
@@ -21,6 +23,8 @@ import android.widget.TextView;
  */
 public class FeedbackTwoActivity extends Activity {
     private MediaPlayer mPlayer;
+    private SeekBar seekbar;
+    public static int oneTimeOnly = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,15 @@ public class FeedbackTwoActivity extends Activity {
         if (starter!=null && starter.getStringExtra("Word")!=null) {
             TextView pron = (TextView) findViewById(R.id.pronName);
             pron.setText(starter.getStringExtra("Word").toString());
+            seekbar = (SeekBar)findViewById(R.id.seekBarPlay);
+            seekbar.setClickable(false);
+
+            final int duration = mPlayer.getDuration();
+            final int amtToUpdate = duration / 100;
+            final Timer mTimer= new Timer();
+
+
+
             Button submit = (Button) findViewById(R.id.submitFeedback);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -51,6 +64,16 @@ public class FeedbackTwoActivity extends Activity {
                     else {
                         playButton.setImageResource(R.drawable.btn_pause_normal);
                         mPlayer.start();
+                        mTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                if(!(amtToUpdate * seekbar.getProgress() >= duration)) {
+                                    int p = seekbar.getProgress();
+                                    p += 1;
+                                    seekbar.setProgress(p);
+                                }
+                            }
+                        },amtToUpdate);
                     }
                 }
             });
@@ -60,6 +83,7 @@ public class FeedbackTwoActivity extends Activity {
             return;
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
