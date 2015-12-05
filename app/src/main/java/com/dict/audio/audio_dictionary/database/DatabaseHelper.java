@@ -163,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Submission getSubmission(int sid) {
         SQLiteDatabase db = getReadableDatabase();
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
-                Submission.Entry.TABLE_NAME, Submission.Entry.KEY_UID, sid);
+                Submission.Entry.TABLE_NAME, Submission.Entry._ID, sid);
         Cursor cursor = db.rawQuery(SELECT_QUERY, null);
         Submission result = null;
         try {
