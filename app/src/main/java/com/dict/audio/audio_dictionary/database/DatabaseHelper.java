@@ -116,8 +116,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getUser(SELECT_QUERY);
     }
 
-    //TODO need a method to get all the submissions in the database
-
     public void addUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();

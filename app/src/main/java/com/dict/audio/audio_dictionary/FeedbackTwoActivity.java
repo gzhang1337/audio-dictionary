@@ -1,6 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -95,7 +96,18 @@ public class FeedbackTwoActivity extends Activity {
                     submission.fids.add(newFeedback.fid);
 
                     //TODO this updating needs to be checked
-                    db.getWritableDatabase().execSQL("UPDATE submission " + sid + "= 'submission' WHERE id=6");
+
+                    ContentValues values = new ContentValues();
+                    values.put(Submission.Entry.KEY_FIDS, String.valueOf(submission.fids));
+                    values.put(Submission.Entry.KEY_UPVOTE, submission.upvote);
+                    values.put(Submission.Entry.KEY_DOWNVOTE, submission.downvote);
+
+                    db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_FIDS
+                        +" = ?", new String[] {String.valueOf(submission.fids)});
+                    db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_UPVOTE
+                            +" = ?", new String[] {String.valueOf(submission.upvote)});
+                    db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_DOWNVOTE
+                            +" = ?", new String[] {String.valueOf(submission.downvote)});
 
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);
