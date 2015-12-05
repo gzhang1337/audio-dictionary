@@ -12,6 +12,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.User;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -35,10 +39,12 @@ public class ProfileActivity extends ListActivity {
             TextView userName = (TextView) findViewById(R.id.username);
             userName.setText(starter.getStringExtra(MainActivity.USER_ID).toString());
 
-
             //TODO query database for number of tokens current user has
 
             db = DatabaseHelper.getInstance(this);
+            User currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
+            TextView tokens = (TextView) findViewById(R.id.numTokens);
+            tokens.setText(currUser.tokens);
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
             Button getFeedback = (Button) findViewById(R.id.useTokens);

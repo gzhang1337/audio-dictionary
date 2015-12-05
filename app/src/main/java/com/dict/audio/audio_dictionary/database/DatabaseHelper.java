@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 // implement helper I've been use this guide
 // https://github.com/codepath/android_guides/wiki/Local-Databases-with-SQLiteOpenHelper
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -129,5 +131,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+    public ArrayList<Submission> get
 
 }
