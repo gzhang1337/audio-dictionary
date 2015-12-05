@@ -46,11 +46,20 @@ public class SubmitActivity extends Activity {
     private int duration;
     private final int MAX_RECORD_TIME = 60000;
     private DatabaseHelper db;
+    private boolean recorded = false;
+    private Long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitscreen);
+
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
+        time = System.currentTimeMillis() / 1000;
+
+
+        //unique audio file to save in the directory using the timestamp
+        outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
 
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
@@ -96,15 +105,9 @@ public class SubmitActivity extends Activity {
                 EditText wordPronounced = (EditText) findViewById(R.id.pronWord);
                 String word = wordPronounced.getText().toString();
                 if (word!=null && !word.isEmpty()) {
-                    if(outputFile != null) {
-                        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
+                    if(recorded) {
 
                         int uid = getIntent().getIntExtra("UserId", -1);
-                        //TODO audio is null, date is null
-                        Long time = System.currentTimeMillis() / 1000;
-
-                        //unique audio file to save in the directory using the timestamp
-                        outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
 
                         Submission toAdd = new Submission(-1, uid, word, outputFile, "", time.toString(), 0, 0);
                         db.addSubmission(toAdd);
@@ -175,6 +178,7 @@ public class SubmitActivity extends Activity {
         timer.cancel();
         mRecorder.release();
         mRecorder = null;
+        recorded = true;
     }
     private void startPlaying() {
         playing = true;
