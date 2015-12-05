@@ -52,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_FEEDBACKS_TABLE = "CREATE TABLE " + Feedback.Entry.TABLE_NAME +
                 "(" +
                     Feedback.Entry._ID + " INTEGER PRIMARY KEY," +
+                    Feedback.Entry.KEY_UID + " INTEGER," +
                     Feedback.Entry.KEY_SID + " INTEGER," +
                     Feedback.Entry.KEY_TEXT + " TEXT," +
                     Feedback.Entry.KEY_WORD + " TEXT," +
@@ -166,6 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // The user might already exist in the database (i.e. the same user created multiple posts).
             ContentValues values = new ContentValues();
             values.put(Feedback.Entry.KEY_SID, feedback.sid);
+            values.put(Feedback.Entry.KEY_UID, feedback.uid);
             values.put(Feedback.Entry.KEY_TEXT, feedback.text);
             values.put(Feedback.Entry.KEY_WORD, feedback.word);
             values.put(Feedback.Entry.KEY_TIMESTAMP, String.valueOf(feedback.timestamp));
