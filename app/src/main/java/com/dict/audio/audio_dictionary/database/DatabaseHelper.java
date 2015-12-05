@@ -231,7 +231,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(Feedback.Entry.KEY_UID, feedback.uid);
             values.put(Feedback.Entry.KEY_TEXT, feedback.text);
             values.put(Feedback.Entry.KEY_WORD, feedback.word);
-            values.put(Feedback.Entry.KEY_TIMESTAMP, String.valueOf(feedback.timestamp));
+            values.put(Feedback.Entry.KEY_TIMESTAMP, String.valueOf(feedback.timestamp.getTime()));
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             db.insertOrThrow(Feedback.Entry.TABLE_NAME, null, values);
             db.setTransactionSuccessful();
