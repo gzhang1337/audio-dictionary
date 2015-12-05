@@ -35,6 +35,7 @@ public class FeedbackTwoActivity extends Activity {
     private SeekBar seekbar;
     private int uid;
     private int sid;
+    private boolean playing = false;
     private String submissionWord;
     private String whatYouHear;
     private String feedback;
@@ -42,6 +43,7 @@ public class FeedbackTwoActivity extends Activity {
     private Submission submission;
     private int duration;
     private String outputFile;
+    private ImageButton playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +56,15 @@ public class FeedbackTwoActivity extends Activity {
         submissionWord = starter.getStringExtra("Word");
         db = DatabaseHelper.getInstance(this);
         submission = db.getSubmission(sid);
-
         outputFile = submission.audio;
 
 
-        if (starter!=null && starter.getStringExtra("Word")!=null &&
-                starter.getStringExtra("UID")!=null &&
-                starter.getStringExtra("SID")!=null) {
+        if (starter!=null) {
             TextView pron = (TextView) findViewById(R.id.pronName);
             pron.setText(submissionWord);
             seekbar = (SeekBar)findViewById(R.id.seekBarPlay);
             seekbar.setClickable(false);
 
-            final int duration = mPlayer.getDuration();
             //final int amtToUpdate = duration / 100;
             //final Timer mTimer= new Timer();
 
@@ -130,16 +128,14 @@ public class FeedbackTwoActivity extends Activity {
                     finish();
                 }
             });
-            final ImageButton playButton = (ImageButton) findViewById(R.id.playImageButton);
+            playButton = (ImageButton) findViewById(R.id.playImageButton);
             playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mPlayer.isPlaying()) {
-                        playButton.setImageResource(R.drawable.btn_play_normal);
+                    if (playing) {
                         stopPlaying();
                     }
                     else {
-                        playButton.setImageResource(R.drawable.btn_pause_normal);
                         startPlaying();
                     }
                 }
@@ -175,7 +171,8 @@ public class FeedbackTwoActivity extends Activity {
     }
 
     private void startPlaying() {
-
+        playing = true;
+        playButton.setImageResource(R.drawable.btn_pause_normal);
         seekbar.setProgress(0);
         mPlayer = new MediaPlayer();
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -219,6 +216,8 @@ public class FeedbackTwoActivity extends Activity {
         }
         seekbar.setProgress(0);
         mPlayer.release();
+        playing = false;
+        playButton.setImageResource(R.drawable.btn_play_normal);
         mPlayer = null;
     }
 }
