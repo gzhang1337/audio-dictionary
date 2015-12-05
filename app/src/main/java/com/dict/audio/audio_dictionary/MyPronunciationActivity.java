@@ -8,9 +8,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.Feedback;
 import com.dict.audio.audio_dictionary.database.Submission;
 
 import android.widget.ArrayAdapter;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -26,6 +30,7 @@ public class MyPronunciationActivity extends ListActivity {
     private List<String> listVals;
     private DatabaseHelper db;
     private Submission mSubmission;
+    private ArrayList<Feedback> mFeedBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,23 +41,14 @@ public class MyPronunciationActivity extends ListActivity {
             theWord.setText(starter.getStringExtra("Word").toString());
             db = DatabaseHelper.getInstance(this);
             mSubmission = db.getSubmission(starter.getIntExtra("SubmissionId",-1));
-
-            //TODO populate the display feedback and vote up and vote down
-            //listVals = db.getPronouns("DELETEME");
+            mFeedBack = db.getFeedbackForSub(mSubmission.sid);
+            listVals = convertFeedBackList(mFeedBack);
             ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }
         else {
             throw new IllegalStateException("Pronunciation Activity not started with intent");
         }
-        //TODO need to check if this works (reference Placebages)
-
-        //TODO specific word or phrase needs to be passed as the title
-
-        //TODO upvote and downvote needs to obtained from the server
-
-        //TODO feedbacks need to be obtained from the server to be shown.
-
     }
 
     @Override
@@ -75,5 +71,12 @@ public class MyPronunciationActivity extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private ArrayList<String> convertFeedBackList(ArrayList<Feedback> in) {
+        ArrayList<String> result = new ArrayList<String>();
+        for (Feedback ele : in) {
+            result.add(ele.text);
+        }
+        return result;
     }
 }

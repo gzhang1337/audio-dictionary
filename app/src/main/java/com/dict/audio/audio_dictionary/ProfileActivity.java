@@ -36,6 +36,7 @@ public class ProfileActivity extends ListActivity {
     private List<String> listVals;
     private DatabaseHelper db;
     private ArrayList<Submission> currSubs;
+    private User currUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class ProfileActivity extends ListActivity {
             //TODO query database for number of tokens current user has
 
             db = DatabaseHelper.getInstance(this);
-            User currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
+            currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
             TextView tokens = (TextView) findViewById(R.id.numTokens);
             tokens.setText(Integer.toString(currUser.tokens));
             //button for giving a feedback and receiving a feedback
@@ -69,6 +70,7 @@ public class ProfileActivity extends ListActivity {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
+                    intent.putExtra("UserId",currUser.uid);
                     startActivity(intent);
                 }
             });

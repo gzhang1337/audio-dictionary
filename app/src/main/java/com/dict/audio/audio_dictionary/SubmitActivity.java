@@ -10,9 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Toast;
+
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.Submission;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,6 +45,7 @@ public class SubmitActivity extends Activity {
     private SeekBar seekBar;
     private int duration;
     private final int MAX_RECORD_TIME = 60000;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +64,7 @@ public class SubmitActivity extends Activity {
                     recordButton.setText("Stop recording");
                     startRecording();
                     recording = true;
-                }
-                else {//stop recording
+                } else {//stop recording
                     recordButton.setText("Start Recording");
                     stopRecording();
                     recording = false;
@@ -74,23 +80,32 @@ public class SubmitActivity extends Activity {
                 if (!playing) {
                     playButton.setText("Stop Playing");
                     startPlaying();
-                }
-                else {
+                } else {
                     playButton.setText("Playback");
                     stopPlaying();
                 }
             }
         });
-
+        db = DatabaseHelper.getInstance(this);
         //submit button
         Button submit = (Button) findViewById(R.id.submitPron);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO submit the data to the server
-
-
+                EditText wordPronounced = (EditText) findViewById(R.id.pronWord);
+                String word = wordPronounced.getText().toString();
+                if (word!=null && !word.isEmpty()) {
+                    int uid = getIntent().getIntExtra("UserId", -1);
+                    //TODO audio is null, date is null
+                    Long time = System.currentTimeMillis()/1000;
+                    Submission toAdd = new Submission(-1, uid,word,null,"",time.toString());
+                    db.addSubmission(toAdd);
+                    Toast.makeText(SubmitActivity.this,"Submission success",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(SubmitActivity.this,"Please type the word you are pronouncing",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -159,9 +174,9 @@ public class SubmitActivity extends Activity {
         });
         try {
             mPlayer.setDataSource(outputFile);
+            mPlayer.prepare();
             duration = mPlayer.getDuration();
             seekBar.setMax(duration);
-            mPlayer.prepare();
             mPlayer.start();
             new Thread(new Runnable() {
                 @Override

@@ -18,11 +18,11 @@
         android:id="@+id/pronWord"
         android:layout_below="@+id/textView30"
         android:layout_marginTop="26dp"
-        android:text="Write the pronunciating word here"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:hint="Write what you are pronouncing" />
 
     <Button
         android:layout_width="wrap_content"

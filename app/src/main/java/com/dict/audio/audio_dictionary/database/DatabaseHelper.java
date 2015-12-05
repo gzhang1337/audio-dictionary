@@ -188,10 +188,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Feedback> getFeedbackForSub(int sid) {
         SQLiteDatabase db = getReadableDatabase();
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
-                Submission.Entry.TABLE_NAME, Submission.Entry.KEY_UID, sid);
+                Feedback.Entry.TABLE_NAME, Feedback.Entry.KEY_SID, sid);
         Cursor cursor = db.rawQuery(SELECT_QUERY, null);
         ArrayList<Feedback> result = null;
-        return result;//Not done yet
+        try {
+            if (cursor.moveToFirst()) {
+                do{
+                    Feedback newFeedback = new Feedback(
+                            cursor.getInt(cursor.getColumnIndex(Feedback.Entry._ID)),
+                            cursor.getInt(cursor.getColumnIndex(Feedback.Entry.KEY_SID)),
+                            cursor.getInt(cursor.getColumnIndex(Feedback.Entry.KEY_UID)),
+                            cursor.getString(cursor.getColumnIndex(Feedback.Entry.KEY_TEXT)),
+                            cursor.getString(cursor.getColumnIndex(Feedback.Entry.KEY_WORD)),
+                            cursor.getString(cursor.getColumnIndex(Feedback.Entry.KEY_TIMESTAMP))
+                    );
+                    result.add(newFeedback);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
     }
     public void addFeedback(Feedback feedback){
         SQLiteDatabase db = getWritableDatabase();

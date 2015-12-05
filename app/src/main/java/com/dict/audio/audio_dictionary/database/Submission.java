@@ -32,10 +32,11 @@ public class Submission {
         this.audio = audio;
 
         this.fids = new ArrayList<>();
-        for (String fid : fids.split(" ")) {
-            this.fids.add(Integer.parseInt(fid));
+        if (!fids.isEmpty()) {
+            for (String fid : fids.split(" ")) {
+                this.fids.add(Integer.parseInt(fid));
+            }
         }
-
         this.timestamp = new Date(Long.valueOf(timestamp) * 1000);
     }
 }
