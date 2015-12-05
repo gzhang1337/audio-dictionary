@@ -52,8 +52,8 @@ public class FeedbackTwoActivity extends Activity {
         uid = starter.getIntExtra("UID",uid);
         sid = starter.getIntExtra("SID", sid);
         submissionWord = starter.getStringExtra("Word");
-        submission = db.getSubmission(sid);
         db = DatabaseHelper.getInstance(this);
+        submission = db.getSubmission(sid);
 
         outputFile = submission.audio;
 
