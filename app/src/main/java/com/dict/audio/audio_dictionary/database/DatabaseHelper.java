@@ -1,6 +1,8 @@
 package com.dict.audio.audio_dictionary.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -70,6 +72,73 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
+    public User getUserByUid( int uid) {
+        SQLiteDatabase db = getWritableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s=%d",
+                User.Entry.TABLE_NAME,User.Entry._ID,uid);
+        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        User result = null;
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    result = new User(cursor.getInt(cursor.getColumnIndex(User.Entry._ID)),
+                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_NAME)),
+                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_PASS)),
+                            cursor.getInt(cursor.getColumnIndex(User.Entry.KEY_TOKENS)));
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
 
+    public User getUserByNamePass(String name, String pass) {
+        SQLiteDatabase db = getWritableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s=%s AND WHERE %s=%s",
+                User.Entry.TABLE_NAME,User.Entry.KEY_NAME,name,User.Entry.KEY_PASS,pass);
+        Cursor cursor = db.rawQuery(SELECT_QUERY,null);
+        User result = null;
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    result = new User(cursor.getInt(cursor.getColumnIndex(User.Entry._ID)),
+                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_NAME)),
+                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_PASS)),
+                            cursor.getInt(cursor.getColumnIndex(User.Entry.KEY_TOKENS)));
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+
+    public void addUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // The user might already exist in the database (i.e. the same user created multiple posts).
+            ContentValues values = new ContentValues();
+            values.put(User.Entry.KEY_NAME, user.name);
+            values.put(User.Entry.KEY_PASS, user.pass);
+            values.put(User.Entry.KEY_TOKENS,user.tokens);
+            // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
+            db.insertOrThrow(User.Entry.TABLE_NAME, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+    }
 
 }
