@@ -73,7 +73,7 @@ public class ProfileActivity extends ListActivity {
 
                     Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
                     intent.putExtra("UserId",currUser.uid);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }
             });
             currSubs = db.getUserSubmissions(currUser);

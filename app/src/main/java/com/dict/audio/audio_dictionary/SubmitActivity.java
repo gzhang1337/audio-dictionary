@@ -1,6 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ public class SubmitActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitscreen);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
+
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
         seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
@@ -95,16 +96,27 @@ public class SubmitActivity extends Activity {
                 EditText wordPronounced = (EditText) findViewById(R.id.pronWord);
                 String word = wordPronounced.getText().toString();
                 if (word!=null && !word.isEmpty()) {
-                    int uid = getIntent().getIntExtra("UserId", -1);
-                    //TODO audio is null, date is null
-                    Long time = System.currentTimeMillis()/1000;
+                    if(outputFile != null) {
+                        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-                    //unique audio file to save in the directory using the timestamp
-                    outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
+                        int uid = getIntent().getIntExtra("UserId", -1);
+                        //TODO audio is null, date is null
+                        Long time = System.currentTimeMillis() / 1000;
 
-                    Submission toAdd = new Submission(-1, uid,word, outputFile,"",time.toString(),0,0);
-                    db.addSubmission(toAdd);
-                    Toast.makeText(SubmitActivity.this,"Submission success",Toast.LENGTH_SHORT).show();
+                        //unique audio file to save in the directory using the timestamp
+                        outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
+
+                        Submission toAdd = new Submission(-1, uid, word, outputFile, "", time.toString(), 0, 0);
+                        db.addSubmission(toAdd);
+                        Toast.makeText(SubmitActivity.this, "Submission success", Toast.LENGTH_SHORT).show();
+
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+
+                    }else{
+                        Toast.makeText(SubmitActivity.this,"Please Record an audio.",Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Toast.makeText(SubmitActivity.this,"Please type the word you are pronouncing",Toast.LENGTH_SHORT).show();
