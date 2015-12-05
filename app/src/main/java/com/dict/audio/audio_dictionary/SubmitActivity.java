@@ -143,7 +143,6 @@ public class SubmitActivity extends Activity {
         timer.cancel();
         mRecorder.release();
         mRecorder = null;
-        amtToUpdate = duration / 100;
         seekBar.setProgress(0);
 
     }
