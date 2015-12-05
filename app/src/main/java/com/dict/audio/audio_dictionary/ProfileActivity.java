@@ -114,7 +114,7 @@ public class ProfileActivity extends ListActivity {
         intent.putExtra("Word",selectedItem);
         startActivityForResult(intent, 1);
     }
-    private List<String> convertSubList(ArrayList<Submission> in) {
+    protected static List<String> convertSubList(ArrayList<Submission> in) {
         ArrayList<String> result = new ArrayList<String>();
         for (Submission ele: in ) {
             result.add(ele.word);

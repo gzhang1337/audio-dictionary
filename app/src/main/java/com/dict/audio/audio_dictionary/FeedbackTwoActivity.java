@@ -38,7 +38,6 @@ public class FeedbackTwoActivity extends Activity {
     private String whatYouHear;
     private String feedback;
     private DatabaseHelper db;
-    private Date date;
 
 
 

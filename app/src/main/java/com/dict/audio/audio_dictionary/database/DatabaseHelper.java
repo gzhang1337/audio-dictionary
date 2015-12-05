@@ -47,9 +47,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Submission.Entry.KEY_WORD + " TEXT," +
                     Submission.Entry.KEY_FIDS + " TEXT," +
                     Submission.Entry.KEY_AUDIO + " TEXT," +
-                    Submission.Entry.KEY_TIMESTAMP + " TIME" +
+                    Submission.Entry.KEY_TIMESTAMP + " TIME," +
                     Submission.Entry.KEY_UPVOTE + " INTEGER," +
-                    Submission.Entry.KEY_DOWNVOTE + " INTEGER," +
+                    Submission.Entry.KEY_DOWNVOTE + " INTEGER" +
                 ")";
 
         String CREATE_FEEDBACKS_TABLE = "CREATE TABLE " + Feedback.Entry.TABLE_NAME +
@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public User getUserByName(String name) {
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
-                User.Entry.TABLE_NAME,User.Entry.KEY_NAME,name,User.Entry.KEY_PASS);
+                User.Entry.TABLE_NAME, User.Entry.KEY_NAME, name, User.Entry.KEY_PASS);
         return getUser(SELECT_QUERY);
     }
 
@@ -263,5 +263,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-
+    public ArrayList<Submission> getAllSubmissions() {
+        SQLiteDatabase db = getReadableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s",
+                Submission.Entry.TABLE_NAME);
+        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        ArrayList<Submission> result = new ArrayList<Submission>();
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Submission sub = new Submission(cursor.getInt(cursor.getColumnIndex(Submission.Entry._ID)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UID)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_WORD)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_AUDIO)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_FIDS)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UPVOTE)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_DOWNVOTE)));
+                    result.add(sub);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
 }

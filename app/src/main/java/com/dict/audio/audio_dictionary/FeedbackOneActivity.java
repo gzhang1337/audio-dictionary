@@ -28,7 +28,7 @@ public class FeedbackOneActivity extends ListActivity {
      * All the items are clickable. Clicking an item will lead to FeedbackTwoActivity
      */
     private List<String> listVals;
-    ArrayAdapter<String> mAdapter;
+    private ArrayAdapter<String> mAdapter;
     private DatabaseHelper db;
     private int uid;
     private ArrayList<Submission> currSubs;
@@ -40,11 +40,10 @@ public class FeedbackOneActivity extends ListActivity {
         db = DatabaseHelper.getInstance(this);
 
         Intent starter = getIntent();
-        User currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
         uid = starter.getIntExtra("UID",uid);
-        currSubs = db.getUserSubmissions(currUser);
-
-        //listVals = db.getNeedFeedBack();
+        User currUser = db.getUserByUid(uid);
+        currSubs = db.getAllSubmissions();
+        listVals = ProfileActivity.convertSubList(currSubs);
         mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         setListAdapter(mAdapter);
 
