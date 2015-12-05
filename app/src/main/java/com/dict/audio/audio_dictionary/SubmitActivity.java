@@ -99,7 +99,7 @@ public class SubmitActivity extends Activity {
                     int uid = getIntent().getIntExtra("UserId", -1);
                     //TODO audio is null, date is null
                     Long time = System.currentTimeMillis()/1000;
-                    Submission toAdd = new Submission(-1, uid,word,null,"",time.toString());
+                    Submission toAdd = new Submission(-1, uid,word,null,"",time.toString(),0,0);
                     db.addSubmission(toAdd);
                     Toast.makeText(SubmitActivity.this,"Submission success",Toast.LENGTH_SHORT).show();
                 }
