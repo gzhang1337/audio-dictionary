@@ -69,8 +69,6 @@ public class FeedbackTwoActivity extends Activity {
 
 
 
-
-
             Button submit = (Button) findViewById(R.id.submitFeedback);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override

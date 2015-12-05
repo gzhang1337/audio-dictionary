@@ -34,7 +34,7 @@ public class FeedbackOneActivity extends ListActivity {
         setContentView(R.layout.feedbackscreennumone);
         db = DatabaseHelper.getInstance(this);
 
-        final Intent starter = getIntent();
+        Intent starter = getIntent();
 
         uid = starter.getIntExtra("UID",uid);
 
