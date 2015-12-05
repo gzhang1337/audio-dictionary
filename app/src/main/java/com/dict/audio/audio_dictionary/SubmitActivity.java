@@ -18,7 +18,6 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -99,6 +98,9 @@ public class SubmitActivity extends Activity {
                     int uid = getIntent().getIntExtra("UserId", -1);
                     //TODO audio is null, date is null
                     Long time = System.currentTimeMillis()/1000;
+
+
+
                     Submission toAdd = new Submission(-1, uid,word,null,"",time.toString(),0,0);
                     db.addSubmission(toAdd);
                     Toast.makeText(SubmitActivity.this,"Submission success",Toast.LENGTH_SHORT).show();

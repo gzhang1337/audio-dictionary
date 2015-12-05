@@ -38,6 +38,7 @@ public class Submission {
         this.upvote = upvote;
         this.downvote = downvote;
 
+
         this.fids = new ArrayList<>();
         if (!fids.isEmpty()) {
             for (String fid : fids.split(" ")) {

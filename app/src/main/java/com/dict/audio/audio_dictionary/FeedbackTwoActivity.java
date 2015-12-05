@@ -40,7 +40,6 @@ public class FeedbackTwoActivity extends Activity {
     private DatabaseHelper db;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
