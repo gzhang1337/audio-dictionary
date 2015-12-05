@@ -17,7 +17,6 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Feedback;
 import com.dict.audio.audio_dictionary.database.Submission;
 
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -86,11 +85,13 @@ public class FeedbackTwoActivity extends Activity {
                         submission.downvote++;
                     }
 
+
+                    db.getWritableDatabase().execSQL("UPDATE submission " + sid + "= 'submission' WHERE id=6");
                     
+                    Long tsLong = System.currentTimeMillis()/1000;
+                    String ts = tsLong.toString();
 
-                    date = new Date();
-
-                    Feedback fb = new Feedback(0,sid,uid, whatYouHear, feedback, date.toString());
+                    Feedback fb = new Feedback(0,sid,uid, whatYouHear, feedback, ts);
 
                     db.addFeedback(fb);
 
