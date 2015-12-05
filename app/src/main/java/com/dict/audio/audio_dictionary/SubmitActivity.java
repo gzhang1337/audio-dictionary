@@ -50,7 +50,7 @@ public class SubmitActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitscreen);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() +"/record.3gp";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
         seekBar = (SeekBar) findViewById(R.id.seekBarRecord);
@@ -99,9 +99,10 @@ public class SubmitActivity extends Activity {
                     //TODO audio is null, date is null
                     Long time = System.currentTimeMillis()/1000;
 
+                    //unique audio file to save in the directory using the timestamp
+                    outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
 
-
-                    Submission toAdd = new Submission(-1, uid,word,null,"",time.toString(),0,0);
+                    Submission toAdd = new Submission(-1, uid,word, outputFile,"",time.toString(),0,0);
                     db.addSubmission(toAdd);
                     Toast.makeText(SubmitActivity.this,"Submission success",Toast.LENGTH_SHORT).show();
                 }

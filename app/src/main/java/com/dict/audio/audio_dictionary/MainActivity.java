@@ -2,7 +2,6 @@ package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +28,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         Button login = (Button) findViewById(R.id.logIn);
         Button signup = (Button) findViewById(R.id.signUp);
+
         db = DatabaseHelper.getInstance(this);
         login.setOnClickListener(
                 new View.OnClickListener() {

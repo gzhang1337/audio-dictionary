@@ -17,8 +17,7 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Feedback;
 import com.dict.audio.audio_dictionary.database.Submission;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
 
 /*
 * Created and implemented by Yinchen Zhang, Rae Kang
@@ -38,7 +37,9 @@ public class FeedbackTwoActivity extends Activity {
     private String whatYouHear;
     private String feedback;
     private DatabaseHelper db;
-
+    private Submission submission;
+    private int duration;
+    private String outputFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,11 @@ public class FeedbackTwoActivity extends Activity {
         uid = starter.getIntExtra("UID",uid);
         sid = starter.getIntExtra("SID", sid);
         submissionWord = starter.getStringExtra("Word");
-
+        submission = db.getSubmission(sid);
         db = DatabaseHelper.getInstance(this);
+
+        outputFile = submission.audio;
+
 
         if (starter!=null && starter.getStringExtra("Word")!=null &&
                 starter.getStringExtra("UID")!=null &&
@@ -61,8 +65,8 @@ public class FeedbackTwoActivity extends Activity {
             seekbar.setClickable(false);
 
             final int duration = mPlayer.getDuration();
-            final int amtToUpdate = duration / 100;
-            final Timer mTimer= new Timer();
+            //final int amtToUpdate = duration / 100;
+            //final Timer mTimer= new Timer();
 
 
 
@@ -75,23 +79,23 @@ public class FeedbackTwoActivity extends Activity {
                     whatYouHear = findViewById(R.id.textYouHear).toString();
                     feedback = findViewById(R.id.giveFeedback).toString();
 
-                    Submission submission = db.getSubmission(sid);
-
                     if(whatYouHear.equals(submissionWord)){
                         submission.upvote++;
                     }else{
                         submission.downvote++;
                     }
-
-
-                    db.getWritableDatabase().execSQL("UPDATE submission " + sid + "= 'submission' WHERE id=6");
                     
                     Long tsLong = System.currentTimeMillis()/1000;
                     String ts = tsLong.toString();
 
-                    Feedback fb = new Feedback(0,sid,uid, whatYouHear, feedback, ts);
+                    Feedback newFeedback = new Feedback(0,sid,uid, whatYouHear, feedback, ts);
 
-                    db.addFeedback(fb);
+                    db.addFeedback(newFeedback);
+
+                    submission.fids.add(newFeedback.fid);
+
+                    //TODO this updating needs to be checked
+                    db.getWritableDatabase().execSQL("UPDATE submission " + sid + "= 'submission' WHERE id=6");
 
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);
@@ -104,21 +108,11 @@ public class FeedbackTwoActivity extends Activity {
                 public void onClick(View v) {
                     if (mPlayer.isPlaying()) {
                         playButton.setImageResource(R.drawable.btn_play_normal);
-                        mPlayer.stop();
+                        stopPlaying();
                     }
                     else {
                         playButton.setImageResource(R.drawable.btn_pause_normal);
-                        mPlayer.start();
-                        mTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                if(!(amtToUpdate * seekbar.getProgress() >= duration)) {
-                                    int p = seekbar.getProgress();
-                                    p += 1;
-                                    seekbar.setProgress(p);
-                                }
-                            }
-                        },amtToUpdate);
+                        startPlaying();
                     }
                 }
             });
@@ -150,5 +144,53 @@ public class FeedbackTwoActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startPlaying() {
+
+        seekbar.setProgress(0);
+        mPlayer = new MediaPlayer();
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+                stopPlaying();
+            }
+        });
+        try {
+            mPlayer.setDataSource(outputFile);
+            mPlayer.prepare();
+            duration = mPlayer.getDuration();
+            seekbar.setMax(duration);
+            mPlayer.start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int currentPosition = 0;
+                    while(currentPosition<duration && mPlayer != null) {
+                        try {
+                            Thread.sleep(1000);
+                        }
+                        catch (InterruptedException e) {
+                            return;
+                        }
+                        if(mPlayer!=null) {
+                            currentPosition = mPlayer.getCurrentPosition();
+                            seekbar.setProgress(currentPosition);
+                        }
+                    }
+                }
+            }).start();
+        } catch (IOException e) {
+            Log.e(MainActivity.TAG, "prepare() failed");
+        }
+    }
+    private void stopPlaying() {
+        if (!mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
+        seekbar.setProgress(0);
+        mPlayer.release();
+        mPlayer = null;
     }
 }

@@ -193,6 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+
     public ArrayList<Feedback> getFeedbackForSub(int sid) {
         SQLiteDatabase db = getReadableDatabase();
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
