@@ -1,19 +1,17 @@
 package com.dict.audio.audio_dictionary;
 
-import android.content.Intent;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Feedback;
 import com.dict.audio.audio_dictionary.database.Submission;
 
-import android.widget.ArrayAdapter;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +43,15 @@ public class MyPronunciationActivity extends ListActivity {
             mSubmission = db.getSubmission(starter.getIntExtra("SubmissionId", -1));
             mFeedBack = db.getFeedbackForSub(mSubmission.sid);
             listVals = convertFeedBackList(mFeedBack);
-            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.pronounWord, listVals);
+
+            TextView up = (TextView) findViewById(R.id.goodVote);
+            TextView down = (TextView) findViewById(R.id.badVote);
+
+            up.setText(mSubmission.upvote);
+            down.setText(mSubmission.downvote);
+
+            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
+
             setListAdapter(mAdapter);
         } else {
             throw new IllegalStateException("Pronunciation Activity not started with intent");
