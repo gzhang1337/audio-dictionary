@@ -53,7 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                     Feedback.Entry._ID + " INTEGER PRIMARY KEY," +
                     Feedback.Entry.KEY_SID + " INTEGER," +
-                    Feedback.Entry.KEY_UID + " INTEGER," +
                     Feedback.Entry.KEY_TEXT + " TEXT," +
                     Feedback.Entry.KEY_WORD + " TEXT," +
                     Feedback.Entry.KEY_TIMESTAMP + " TIME" +
@@ -132,5 +131,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public ArrayList<Submission> get
+
+    public void addFeedback(Feedback feedback){
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // The user might already exist in the database (i.e. the same user created multiple posts).
+            ContentValues values = new ContentValues();
+            values.put(Feedback.Entry.KEY_SID, feedback.sid);
+            values.put(Feedback.Entry.KEY_TEXT, feedback.text);
+            values.put(Feedback.Entry.KEY_WORD, feedback.word);
+            values.put(Feedback.Entry.KEY_TIMESTAMP, String.valueOf(feedback.timestamp));
+            // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
+            db.insertOrThrow(Feedback.Entry.TABLE_NAME, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public void addSubmission(Submission submission){
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            // The user might already exist in the database (i.e. the same user created multiple posts).
+            ContentValues values = new ContentValues();
+            values.put(Submission.Entry.KEY_UID, submission.uid);
+            values.put(Submission.Entry.KEY_WORD, submission.word);
+            values.put(Submission.Entry.KEY_FIDS, String.valueOf(submission.fids));
+            values.put(Submission.Entry.KEY_AUDIO, submission.audio);
+            values.put(Submission.Entry.KEY_TIMESTAMP, String.valueOf(submission.timestamp));
+            // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
+            db.insertOrThrow(Submission.Entry.TABLE_NAME, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+    }
 
 }
