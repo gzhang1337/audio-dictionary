@@ -254,6 +254,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(Submission.Entry.KEY_FIDS, String.valueOf(submission.fids));
             values.put(Submission.Entry.KEY_AUDIO, submission.audio);
             values.put(Submission.Entry.KEY_TIMESTAMP, String.valueOf(submission.timestamp));
+            values.put(Submission.Entry.KEY_UPVOTE, submission.upvote);
+            values.put(Submission.Entry.KEY_DOWNVOTE, submission.downvote);
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             db.insertOrThrow(Submission.Entry.TABLE_NAME, null, values);
             db.setTransactionSuccessful();
