@@ -20,6 +20,7 @@ import java.util.List;
 /*
 * Created and implemented by Yinchen Zhang, Rae Kang
 * */
+
 /**
  * This activity is after the user clicks an item from the profile screen.
  * This activty shows the submission
@@ -31,22 +32,22 @@ public class MyPronunciationActivity extends ListActivity {
     private DatabaseHelper db;
     private Submission mSubmission;
     private ArrayList<Feedback> mFeedBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypronscreen);
         Intent starter = getIntent();
-        if (starter!=null) {
+        if (starter != null) {
             TextView theWord = (TextView) findViewById(R.id.pronWord);
             theWord.setText(starter.getStringExtra("Word").toString());
             db = DatabaseHelper.getInstance(this);
-            mSubmission = db.getSubmission(starter.getIntExtra("SubmissionId",-1));
+            mSubmission = db.getSubmission(starter.getIntExtra("SubmissionId", -1));
             mFeedBack = db.getFeedbackForSub(mSubmission.sid);
             listVals = convertFeedBackList(mFeedBack);
-            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
+            ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.pronounWord, listVals);
             setListAdapter(mAdapter);
-        }
-        else {
+        } else {
             throw new IllegalStateException("Pronunciation Activity not started with intent");
         }
     }
@@ -72,11 +73,13 @@ public class MyPronunciationActivity extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private ArrayList<String> convertFeedBackList(ArrayList<Feedback> in) {
         ArrayList<String> result = new ArrayList<String>();
-        for (Feedback ele : in) {
-            result.add(ele.text);
-        }
+        if (in != null)
+            for (Feedback ele : in) {
+                result.add(ele.text);
+            }
         return result;
     }
 }
