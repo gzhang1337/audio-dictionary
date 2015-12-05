@@ -135,7 +135,6 @@ public class SubmitActivity extends Activity {
                 p += 1000;
                 seekBar.setProgress(p);
             }
-<<<<<<< Updated upstream
         }, 1, 1000);
     }
     private void stopRecording() {
@@ -143,9 +142,6 @@ public class SubmitActivity extends Activity {
         timer.cancel();
         mRecorder.release();
         mRecorder = null;
-        amtToUpdate = duration / 100;
-        seekBar.setProgress(0);
-
     }
     private void startPlaying() {
         playing = true;

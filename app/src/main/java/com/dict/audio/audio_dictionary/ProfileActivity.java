@@ -12,10 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.Submission;
 import com.dict.audio.audio_dictionary.database.User;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +32,7 @@ public class ProfileActivity extends ListActivity {
     private ArrayAdapter<String> mAdapter;
     private List<String> listVals;
     private DatabaseHelper db;
+    private ArrayList<Submission> currSubs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,7 @@ public class ProfileActivity extends ListActivity {
             db = DatabaseHelper.getInstance(this);
             User currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
             TextView tokens = (TextView) findViewById(R.id.numTokens);
-            tokens.setText(currUser.tokens);
+            tokens.setText(Integer.toString(currUser.tokens));
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
             Button getFeedback = (Button) findViewById(R.id.useTokens);
@@ -66,7 +69,8 @@ public class ProfileActivity extends ListActivity {
                     startActivity(intent);
                 }
             });
-            //listVals = db.getPronouns(userName.getText().toString());
+            currSubs = db.getUserSubmissions(currUser);
+            listVals = convertSubList(currSubs);
             mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }
@@ -100,5 +104,12 @@ public class ProfileActivity extends ListActivity {
         Intent intent = new Intent(this, MyPronunciationActivity.class);
         intent.putExtra("Word", selectedItem);
         startActivityForResult(intent, 1);
+    }
+    private List<String> convertSubList(ArrayList<Submission> in) {
+        ArrayList<String> result = new ArrayList<String>();
+        for (Submission ele: in ) {
+            result.add(ele.word);
+        }
+        return result;
     }
 }

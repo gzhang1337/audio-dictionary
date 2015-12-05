@@ -79,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getUser(SELECT_QUERY);
     }
     private User getUser(String query) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         User result = null;
         try {
@@ -130,7 +130,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-    public ArrayList<Submission> get
+
+    public ArrayList<Submission> getUserSubmissions(User user) {
+        SQLiteDatabase db = getReadableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
+                Submission.Entry.TABLE_NAME, Submission.Entry.KEY_UID, user.uid);
+        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        ArrayList<Submission> result = new ArrayList<Submission>();
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Submission sub= new Submission(cursor.getInt(cursor.getColumnIndex(Submission.Entry._ID)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UID)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_WORD)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_AUDIO)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_FIDS)),
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)));
+                    result.add(sub);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
 
     public void addFeedback(Feedback feedback){
         SQLiteDatabase db = getWritableDatabase();
