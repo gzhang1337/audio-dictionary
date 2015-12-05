@@ -137,21 +137,15 @@ public class SubmitActivity extends Activity {
             }
 <<<<<<< Updated upstream
         }, 1, 1000);
-=======
-        },1,1000);
->>>>>>> Stashed changes
     }
     private void stopRecording() {
         mRecorder.stop();
         timer.cancel();
         mRecorder.release();
         mRecorder = null;
-<<<<<<< Updated upstream
-=======
         amtToUpdate = duration / 100;
         seekBar.setProgress(0);
 
->>>>>>> Stashed changes
     }
     private void startPlaying() {
         playing = true;
