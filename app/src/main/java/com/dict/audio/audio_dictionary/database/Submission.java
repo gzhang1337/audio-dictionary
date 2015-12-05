@@ -4,7 +4,6 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 /*
 * Created and implemented by William Harris, Yinchen Zhang, Rae Kang
 * */
@@ -25,7 +24,7 @@ public class Submission {
     public int upvote;
     public int downvote;
     public String word;
-    public List<Integer> fids;
+    public ArrayList<Integer> fids;
     public String audio;
     public Date timestamp;
 
@@ -40,11 +39,11 @@ public class Submission {
 
 
         this.fids = new ArrayList<>();
-        if (!fids.isEmpty()) {
-            for (String fid : fids.split(" ")) {
-                this.fids.add(Integer.parseInt(fid));
-            }
+
+        if(!fids.isEmpty()){
+            this.fids.add(Integer.parseInt(fids));
         }
+
         this.timestamp = new Date(Long.valueOf(timestamp) * 1000);
     }
 }
