@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ public class SubmitActivity extends Activity {
     private DatabaseHelper db;
     private boolean recorded = false;
     private Long time;
+    private CheckBox checkEng, checkSpan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,25 +114,46 @@ public class SubmitActivity extends Activity {
                 EditText wordPronounced = (EditText) findViewById(R.id.pronWord);
                 String word = wordPronounced.getText().toString();
                 if (word!=null && !word.isEmpty()) {
-                    if(recorded) {
+                    if (checkEng.isChecked() ^ checkSpan.isChecked()) {
+                        if (recorded) {
 
-                        int uid = getIntent().getIntExtra("UserId", -1);
+                            int uid = getIntent().getIntExtra("UserId", -1);
 
-                        Submission toAdd = new Submission(-1, uid, word, outputFile, "", time.toString(), 0, 0);
-                        db.addSubmission(toAdd);
-                        Toast.makeText(SubmitActivity.this, "Submission success", Toast.LENGTH_SHORT).show();
+                            Submission toAdd = new Submission(-1, uid, word, outputFile, "", time.toString(), 0, 0);
+                            db.addSubmission(toAdd);
+                            Toast.makeText(SubmitActivity.this, "Submission success", Toast.LENGTH_SHORT).show();
 
-                        Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
+                            Intent returnIntent = new Intent();
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
 
-                    }else{
-                        Toast.makeText(SubmitActivity.this,"Please Record an audio.",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SubmitActivity.this, "Please Record an audio.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(SubmitActivity.this, "Please choose a language.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
                     Toast.makeText(SubmitActivity.this,"Please type the word you are pronouncing",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        checkEng = (CheckBox) findViewById(R.id.checkEng);
+        checkSpan = (CheckBox) findViewById(R.id.checkSpan);
+        checkEng.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    checkSpan.setChecked(false);
+            }
+        });
+        checkSpan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    checkEng.setChecked(false);
             }
         });
     }

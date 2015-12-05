@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="English"
-        android:id="@+id/checckEng"
+        android:id="@+id/checkEng"
         android:layout_below="@+id/playButton"
         android:layout_alignStart="@+id/submitPron"
         android:layout_marginTop="31dp" />
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Spanish"
         android:id="@+id/checkSpan"
-        android:layout_alignTop="@+id/checckEng"
+        android:layout_alignTop="@+id/checkEng"
         android:layout_alignEnd="@+id/submitPron" />
 
     <Button
