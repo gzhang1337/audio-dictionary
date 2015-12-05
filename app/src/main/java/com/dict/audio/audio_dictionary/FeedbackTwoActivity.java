@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Feedback;
 import com.dict.audio.audio_dictionary.database.Submission;
+import com.dict.audio.audio_dictionary.database.User;
 
 import java.io.IOException;
 
@@ -108,6 +109,21 @@ public class FeedbackTwoActivity extends Activity {
                             +" = ?", new String[] {String.valueOf(submission.upvote)});
                     db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_DOWNVOTE
                             +" = ?", new String[] {String.valueOf(submission.downvote)});
+
+                    //TODO update the user token
+
+                    User user = db.getUserByUid(uid);
+
+                    user.tokens++;
+
+                    //TODO update the user table
+
+                    ContentValues values2 = new ContentValues();
+                    values2.put(User.Entry.KEY_TOKENS, user.tokens);
+
+                    db.getWritableDatabase().update("users", values2, User.Entry.KEY_TOKENS
+                            + " = ?", new String[]{String.valueOf(user.tokens)});
+
 
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);

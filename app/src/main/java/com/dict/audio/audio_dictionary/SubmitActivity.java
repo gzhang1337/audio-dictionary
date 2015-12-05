@@ -1,6 +1,7 @@
 package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
+import com.dict.audio.audio_dictionary.database.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,6 +124,21 @@ public class SubmitActivity extends Activity {
                             Submission toAdd = new Submission(-1, uid, word, outputFile, "", time.toString(), 0, 0);
                             db.addSubmission(toAdd);
                             Toast.makeText(SubmitActivity.this, "Submission success", Toast.LENGTH_SHORT).show();
+
+                            //TODO update the user token
+
+                            User user = db.getUserByUid(uid);
+
+                            user.tokens--;
+
+                            //TODO update the user table
+
+                            ContentValues values = new ContentValues();
+                            values.put(User.Entry.KEY_TOKENS, user.tokens);
+
+                            db.getWritableDatabase().update("users", values, User.Entry.KEY_TOKENS
+                                    + " = ?", new String[]{String.valueOf(user.tokens)});
+
 
                             Intent returnIntent = new Intent();
                             setResult(Activity.RESULT_OK, returnIntent);
