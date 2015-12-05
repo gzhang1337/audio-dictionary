@@ -15,8 +15,6 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
 import com.dict.audio.audio_dictionary.database.User;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +38,9 @@ public class ProfileActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profilescreen);
-        Intent starter = getIntent();
+        final Intent starter = getIntent();
         if (starter != null) {
-            TextView userName = (TextView) findViewById(R.id.username);
+            final TextView userName = (TextView) findViewById(R.id.username);
             userName.setText(starter.getStringExtra(MainActivity.USER_ID).toString());
 
             //TODO query database for number of tokens current user has
@@ -60,6 +58,10 @@ public class ProfileActivity extends ListActivity {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getApplicationContext(), FeedbackOneActivity.class);
+
+                    User user = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
+                    int uid = user.uid;
+                    intent.putExtra("UID", uid);
                     startActivity(intent);
                 }
             });

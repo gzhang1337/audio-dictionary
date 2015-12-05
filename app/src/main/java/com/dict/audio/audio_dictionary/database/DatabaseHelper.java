@@ -48,6 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Submission.Entry.KEY_FIDS + " TEXT," +
                     Submission.Entry.KEY_AUDIO + " TEXT," +
                     Submission.Entry.KEY_TIMESTAMP + " TIME" +
+                    Submission.Entry.KEY_UPVOTE + " INTEGER," +
+                    Submission.Entry.KEY_DOWNVOTE + " INTEGER," +
                 ")";
 
         String CREATE_FEEDBACKS_TABLE = "CREATE TABLE " + Feedback.Entry.TABLE_NAME +
@@ -114,6 +116,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getUser(SELECT_QUERY);
     }
 
+    //TODO need a method to get all the submissions in the database
+
     public void addUser(User user) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
@@ -147,7 +151,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_WORD)),
                             cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_AUDIO)),
                             cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_FIDS)),
-                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)));
+                            cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UPVOTE)),
+                            cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_DOWNVOTE)));
                     result.add(sub);
                 } while(cursor.moveToNext());
             }
@@ -173,7 +179,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_WORD)),
                         cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_AUDIO)),
                         cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_FIDS)),
-                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)));
+                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)),
+                        cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UPVOTE)),
+                        cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_DOWNVOTE)));
 
             }
         } catch (Exception e) {
