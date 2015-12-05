@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.Submission;
+
 import android.widget.ArrayAdapter;
 import java.util.List;
 
@@ -16,14 +18,14 @@ import java.util.List;
 * */
 /**
  * This activity is after the user clicks an item from the profile screen.
- * This activty shows the word/phrase on the top.
+ * This activty shows the submission
  * This activity shows the upvote and downvote.
  * This activity shows the list of feedbacks from other people
  */
 public class MyPronunciationActivity extends ListActivity {
     private List<String> listVals;
     private DatabaseHelper db;
-
+    private Submission mSubmission;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class MyPronunciationActivity extends ListActivity {
             TextView theWord = (TextView) findViewById(R.id.pronWord);
             theWord.setText(starter.getStringExtra("Word").toString());
             db = DatabaseHelper.getInstance(this);
+            mSubmission = db.getSubmission(starter.getIntExtra("SubmissionId",-1));
+
             //TODO populate the display feedback and vote up and vote down
             //listVals = db.getPronouns("DELETEME");
             ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);

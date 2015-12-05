@@ -160,7 +160,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+    public Submission getSubmission(int sid) {
+        SQLiteDatabase db = getReadableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
+                Submission.Entry.TABLE_NAME, Submission.Entry.KEY_UID, sid);
+        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        Submission result = null;
+        try {
+            if (cursor.moveToFirst()) {
+                result = new Submission(cursor.getInt(cursor.getColumnIndex(Submission.Entry._ID)),
+                        cursor.getInt(cursor.getColumnIndex(Submission.Entry.KEY_UID)),
+                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_WORD)),
+                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_AUDIO)),
+                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_FIDS)),
+                        cursor.getString(cursor.getColumnIndex(Submission.Entry.KEY_TIMESTAMP)));
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+    public ArrayList<Feedback> getFeedbackForSub(int sid) {
+        SQLiteDatabase db = getReadableDatabase();
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
+                Submission.Entry.TABLE_NAME, Submission.Entry.KEY_UID, sid);
+        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        ArrayList<Feedback> result = null;
+        return result;//Not done yet
+    }
     public void addFeedback(Feedback feedback){
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();

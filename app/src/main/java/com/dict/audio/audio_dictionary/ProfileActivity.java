@@ -104,8 +104,10 @@ public class ProfileActivity extends ListActivity {
     protected void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
         String selectedItem = (String) getListView().getItemAtPosition(position);
+        Submission currentSubmission = currSubs.get(position);
         Intent intent = new Intent(this, MyPronunciationActivity.class);
-        intent.putExtra("Word", selectedItem);
+        intent.putExtra("SubmissionId",currentSubmission.sid);
+        intent.putExtra("Word",selectedItem);
         startActivityForResult(intent, 1);
     }
     private List<String> convertSubList(ArrayList<Submission> in) {
