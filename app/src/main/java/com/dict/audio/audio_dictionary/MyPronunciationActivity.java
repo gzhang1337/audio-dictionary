@@ -11,6 +11,9 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import android.widget.ArrayAdapter;
 import java.util.List;
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 /**
  * This activity is after the user clicks an item from the profile screen.
  * This activty shows the word/phrase on the top.

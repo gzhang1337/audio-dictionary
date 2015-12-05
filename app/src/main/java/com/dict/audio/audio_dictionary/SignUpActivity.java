@@ -14,6 +14,9 @@ import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.User;
 
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 public class SignUpActivity extends Activity {
 
     private DatabaseHelper db;

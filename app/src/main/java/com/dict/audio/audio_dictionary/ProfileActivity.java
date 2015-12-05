@@ -20,6 +20,9 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 /**
  *  This activity is after the user sign in.
  *  The user may give a feedback or receive a feedback.

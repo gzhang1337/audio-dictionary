@@ -12,7 +12,9 @@ import android.widget.ListView;
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import java.util.List;
 
-
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 public class FeedbackOneActivity extends ListActivity {
 
     /* This activity is from the profile screen. The user wants to give a feedback.

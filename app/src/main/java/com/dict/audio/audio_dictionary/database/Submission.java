@@ -5,7 +5,9 @@ import android.provider.BaseColumns;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/*
+* Created and implemented by William Harris, Yinchen Zhang, Rae Kang
+* */
 public class Submission {
     public static abstract class Entry implements BaseColumns {
         public static final String TABLE_NAME = "submissions";

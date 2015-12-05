@@ -15,6 +15,9 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 /**
  * This activity is after the user clicks which item to be give back to.
  * Word/Phrase is the title and an audio is playable to hear.

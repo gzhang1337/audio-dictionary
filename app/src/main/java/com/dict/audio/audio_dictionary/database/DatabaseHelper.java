@@ -8,8 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-// implement helper I've been use this guide
-// https://github.com/codepath/android_guides/wiki/Local-Databases-with-SQLiteOpenHelper
+/*
+* Created and implemented by William Harris, Yinchen Zhang, Rae Kang
+* */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info

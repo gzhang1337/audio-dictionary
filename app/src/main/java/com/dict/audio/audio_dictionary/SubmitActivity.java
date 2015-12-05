@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
 /**
  * This activity is from ProfileActivity. User wants to receive a feedback.
  * The specific user has to be known.

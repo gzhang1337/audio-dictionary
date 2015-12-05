@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.User;
 
+/*
+* Created and implemented by Yinchen Zhang, Rae Kang
+* */
+
 public class MainActivity extends Activity {
     public final static String USER_ID = "UserID";
     public final static String TAG = "Audio-dict";

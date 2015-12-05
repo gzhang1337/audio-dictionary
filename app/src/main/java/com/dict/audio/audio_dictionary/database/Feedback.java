@@ -3,7 +3,9 @@ package com.dict.audio.audio_dictionary.database;
 import android.provider.BaseColumns;
 
 import java.util.Date;
-
+/*
+* Created and implemented by William Harris, Yinchen Zhang, Rae Kang
+* */
 public class Feedback {
     public static abstract class Entry implements BaseColumns {
         public static final String TABLE_NAME = "feedbacks";
