@@ -4,10 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.dict.audio.audio_dictionary.Feedback;
-import com.dict.audio.audio_dictionary.Submission;
-import com.dict.audio.audio_dictionary.User;
-
 // implement helper I've been use this guide
 // https://github.com/codepath/android_guides/wiki/Local-Databases-with-SQLiteOpenHelper
 public class DatabaseHelper extends SQLiteOpenHelper {

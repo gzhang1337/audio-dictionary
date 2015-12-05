@@ -11,9 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+
 public class MainActivity extends Activity {
     public final static String USER_ID = "UserID";
     public final static String TAG = "Audio-dict";
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         Button login = (Button) findViewById(R.id.logIn);
         Button signup = (Button) findViewById(R.id.signUp);
+        db = DatabaseHelper.getInstance(this);
         login.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

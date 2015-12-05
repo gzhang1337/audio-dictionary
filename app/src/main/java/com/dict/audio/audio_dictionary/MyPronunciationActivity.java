@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import android.widget.ArrayAdapter;
 import java.util.List;
 
@@ -19,7 +19,8 @@ import java.util.List;
  */
 public class MyPronunciationActivity extends ListActivity {
     private List<String> listVals;
-    UserDatabaseHelper db;
+    private DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +29,9 @@ public class MyPronunciationActivity extends ListActivity {
         if (starter!=null) {
             TextView theWord = (TextView) findViewById(R.id.pronWord);
             theWord.setText(starter.getStringExtra("Word").toString());
-            db = UserDatabaseHelper.getInstance(this);
+            db = DatabaseHelper.getInstance(this);
             //TODO populate the display feedback and vote up and vote down
-            listVals = db.getPronouns("DELETEME");
+            //listVals = db.getPronouns("DELETEME");
             ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }

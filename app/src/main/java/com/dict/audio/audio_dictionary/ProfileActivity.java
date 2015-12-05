@@ -10,7 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
+
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class ProfileActivity extends ListActivity {
 
     private ArrayAdapter<String> mAdapter;
     private List<String> listVals;
-    private UserDatabaseHelper db;
+    private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class ProfileActivity extends ListActivity {
 
             //TODO query database for number of tokens current user has
 
-            db = UserDatabaseHelper.getInstance(this);
+            db = DatabaseHelper.getInstance(this);
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
             Button getFeedback = (Button) findViewById(R.id.useTokens);
@@ -59,7 +60,7 @@ public class ProfileActivity extends ListActivity {
                     startActivity(intent);
                 }
             });
-            listVals = db.getPronouns(userName.getText().toString());
+            //listVals = db.getPronouns(userName.getText().toString());
             mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }

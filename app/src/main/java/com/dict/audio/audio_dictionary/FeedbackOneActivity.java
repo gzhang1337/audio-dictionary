@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.dict.audio.audio_dictionary.database.UserDatabaseHelper;
-
-import java.util.ArrayList;
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import java.util.List;
 
 
@@ -23,15 +21,15 @@ public class FeedbackOneActivity extends ListActivity {
      */
     private List<String> listVals;
     ArrayAdapter<String> mAdapter;
-    private UserDatabaseHelper db;
+    private DatabaseHelper db;
     //TODO needs a layout adapter to show the list. We need to get the list from the server.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedbackscreennumone);
-        db = UserDatabaseHelper.getInstance(this);
-        listVals = db.getNeedFeedBack();
+        db = DatabaseHelper.getInstance(this);
+        //listVals = db.getNeedFeedBack();
         mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         setListAdapter(mAdapter);
     }

@@ -1,4 +1,4 @@
-package com.dict.audio.audio_dictionary;
+package com.dict.audio.audio_dictionary.database;
 
 import android.provider.BaseColumns;
 
