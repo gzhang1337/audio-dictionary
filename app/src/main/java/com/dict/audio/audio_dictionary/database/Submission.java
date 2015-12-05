@@ -16,20 +16,27 @@ public class Submission {
         public static final String KEY_FIDS = "fids";
         public static final String KEY_AUDIO = "audio";
         public static final String KEY_TIMESTAMP = "time";
+        public static final String KEY_UPVOTE = "upvote";
+        public static final String KEY_DOWNVOTE = "downvote";
     }
 
     public int sid;
     public int uid;
+    public int upvote;
+    public int downvote;
     public String word;
     public List<Integer> fids;
     public String audio;
     public Date timestamp;
 
-    public Submission(int sid, int uid, String word, String audio, String fids, String timestamp) {
+    public Submission(int sid, int uid, String word, String audio, String fids, String timestamp,
+                      int upvote, int downvote) {
         this.sid = sid;
         this.uid = uid;
         this.word = word;
         this.audio = audio;
+        this.upvote = upvote;
+        this.downvote = downvote;
 
         this.fids = new ArrayList<>();
         if (!fids.isEmpty()) {

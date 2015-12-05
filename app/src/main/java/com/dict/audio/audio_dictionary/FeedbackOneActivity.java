@@ -10,7 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.Submission;
+import com.dict.audio.audio_dictionary.database.User;
+
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 /*
 * Created and implemented by Yinchen Zhang, Rae Kang
@@ -24,16 +30,25 @@ public class FeedbackOneActivity extends ListActivity {
     private List<String> listVals;
     ArrayAdapter<String> mAdapter;
     private DatabaseHelper db;
-    //TODO needs a layout adapter to show the list. We need to get the list from the server.
+    private int uid;
+    private ArrayList<Submission> currSubs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedbackscreennumone);
         db = DatabaseHelper.getInstance(this);
+
+        Intent starter = getIntent();
+        User currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
+        uid = starter.getIntExtra("UID",uid);
+        currSubs = db.getUserSubmissions(currUser);
+
         //listVals = db.getNeedFeedBack();
         mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         setListAdapter(mAdapter);
+
+        //TODO need to fetch all the submissions from the DB to populate the list
     }
 
     @Override
@@ -59,9 +74,13 @@ public class FeedbackOneActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
+
         String selectedItem = (String) getListView().getItemAtPosition(position);
-        Intent intent = new Intent(this,FeedbackTwoActivity.class);
-        intent.putExtra("Word", selectedItem);
+        Submission currentSubmission = currSubs.get(position);
+        Intent intent = new Intent(this, FeedbackTwoActivity.class);
+        intent.putExtra("SID",currentSubmission.sid);
+        intent.putExtra("UID",currentSubmission.uid);
+        intent.putExtra("Word",selectedItem);
         startActivityForResult(intent, 1);
     }
 }
