@@ -78,10 +78,9 @@
         android:inputType="text"
         android:ems="10"
         android:id="@+id/userID"
-        android:layout_alignBottom="@+id/textView4"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="-15dp"
-        android:layout_alignStart="@+id/password" />
+        android:layout_alignTop="@+id/textView4"
+        android:layout_toEndOf="@+id/textView6" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -94,45 +93,15 @@
         android:layout_toEndOf="@+id/textView6"
         android:layout_marginTop="-10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Choose your native language"
-        android:id="@+id/textView8"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/email"
-        android:layout_alignStart="@+id/textView7" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="English"
-        android:id="@+id/englishCheck"
-        android:layout_below="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Spanish"
-        android:id="@+id/spanishCheck"
-        android:layout_below="@+id/textView8"
-        android:layout_alignStart="@+id/cPassword"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp" />
-
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:id="@+id/finishSignUp"
-        android:layout_below="@+id/englishCheck"
-        android:layout_alignStart="@+id/englishCheck"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/email"
+        android:layout_alignStart="@+id/cPassword" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -140,7 +109,7 @@
         android:layout_height="wrap_content"
         android:text="clear"
         android:id="@+id/clearbutton"
-        android:layout_alignBottom="@+id/finishSignUp"
-        android:layout_alignEnd="@+id/textView8" />
+        android:layout_alignTop="@+id/finishSignUp"
+        android:layout_alignStart="@+id/textView5" />
 
 </RelativeLayout>

@@ -40,6 +40,9 @@ public class MainActivity extends Activity {
                                 intent.putExtra(USER_ID, userId.getText().toString());
                                 startActivity(intent);
                             }
+                            else {
+                                Toast.makeText(getApplicationContext(),"Invalid User, please signup",Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else {
                             Toast.makeText(getApplicationContext(),"Please provide username and password",Toast.LENGTH_SHORT).show();

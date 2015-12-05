@@ -2,6 +2,7 @@ package com.dict.audio.audio_dictionary;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,14 +10,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dict.audio.audio_dictionary.database.DatabaseHelper;
+import com.dict.audio.audio_dictionary.database.User;
+
 
 public class SignUpActivity extends Activity {
 
+    private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupscreen);
         Button signUp = (Button) findViewById(R.id.finishSignUp);
+        db = DatabaseHelper.getInstance(this);
         signUp.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -27,6 +33,8 @@ public class SignUpActivity extends Activity {
                         TextView email = (TextView) findViewById(R.id.email);
                         if (passWord.getText().toString().equals(confirmPw.getText().toString())) {
                             // TODO connecto to database and validate the email has not been registered to another id
+                            User newUser = new User(0, userID.getText().toString(),passWord.getText().toString(),3);
+                            db.addUser(newUser);
                             Toast.makeText(getApplicationContext(),"Sign up successful",Toast.LENGTH_LONG).show();
                         }
                         else {

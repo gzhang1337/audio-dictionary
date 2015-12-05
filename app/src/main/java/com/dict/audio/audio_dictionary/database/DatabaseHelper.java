@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public User getUserByNamePass(String name, String pass) {
         SQLiteDatabase db = getWritableDatabase();
-        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s=%s AND WHERE %s=%s",
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s' AND %s='%s'",
                 User.Entry.TABLE_NAME,User.Entry.KEY_NAME,name,User.Entry.KEY_PASS,pass);
         Cursor cursor = db.rawQuery(SELECT_QUERY,null);
         User result = null;
