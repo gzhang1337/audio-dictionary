@@ -1,11 +1,6 @@
 package com.dict.audio.audio_dictionary.database;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 public class User {
     public static abstract class Entry implements BaseColumns {

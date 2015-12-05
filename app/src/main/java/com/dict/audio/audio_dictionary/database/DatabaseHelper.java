@@ -73,10 +73,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public User getUserByUid( int uid) {
-        SQLiteDatabase db = getWritableDatabase();
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s=%d",
                 User.Entry.TABLE_NAME,User.Entry._ID,uid);
-        Cursor cursor = db.rawQuery(SELECT_QUERY, null);
+        return getUser(SELECT_QUERY);
+    }
+    private User getUser(String query) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
         User result = null;
         try {
             if (cursor.moveToFirst()) {
@@ -98,28 +101,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public User getUserByNamePass(String name, String pass) {
-        SQLiteDatabase db = getWritableDatabase();
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s' AND %s='%s'",
                 User.Entry.TABLE_NAME,User.Entry.KEY_NAME,name,User.Entry.KEY_PASS,pass);
-        Cursor cursor = db.rawQuery(SELECT_QUERY,null);
-        User result = null;
-        try {
-            if (cursor.moveToFirst()) {
-                do {
-                    result = new User(cursor.getInt(cursor.getColumnIndex(User.Entry._ID)),
-                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_NAME)),
-                            cursor.getString(cursor.getColumnIndex(User.Entry.KEY_PASS)),
-                            cursor.getInt(cursor.getColumnIndex(User.Entry.KEY_TOKENS)));
-                } while(cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
-        }
-        return result;
+        return getUser(SELECT_QUERY);
+    }
+    public User getUserByName(String name) {
+        String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
+                User.Entry.TABLE_NAME,User.Entry.KEY_NAME,name,User.Entry.KEY_PASS);
+        return getUser(SELECT_QUERY);
     }
 
     public void addUser(User user) {
