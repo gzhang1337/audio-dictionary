@@ -197,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s='%s'",
                 Feedback.Entry.TABLE_NAME, Feedback.Entry.KEY_SID, sid);
         Cursor cursor = db.rawQuery(SELECT_QUERY, null);
-        ArrayList<Feedback> result = null;
+        ArrayList<Feedback> result = new ArrayList<Feedback>();
         try {
             if (cursor.moveToFirst()) {
                 do{
