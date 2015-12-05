@@ -86,6 +86,8 @@ public class SubmitActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //TODO submit the data to the server
+
+
             }
         });
     }
@@ -133,13 +135,23 @@ public class SubmitActivity extends Activity {
                 p += 1000;
                 seekBar.setProgress(p);
             }
+<<<<<<< Updated upstream
         }, 1, 1000);
+=======
+        },1,1000);
+>>>>>>> Stashed changes
     }
     private void stopRecording() {
         mRecorder.stop();
         timer.cancel();
         mRecorder.release();
         mRecorder = null;
+<<<<<<< Updated upstream
+=======
+        amtToUpdate = duration / 100;
+        seekBar.setProgress(0);
+
+>>>>>>> Stashed changes
     }
     private void startPlaying() {
         playing = true;

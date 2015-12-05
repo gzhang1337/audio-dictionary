@@ -48,6 +48,10 @@ public class FeedbackTwoActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     //TODO save the feedback in a persistent state somehow
+
+
+
+
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
