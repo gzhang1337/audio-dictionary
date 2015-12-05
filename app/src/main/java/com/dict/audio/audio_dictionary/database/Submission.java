@@ -4,6 +4,7 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 /*
 * Created and implemented by William Harris, Yinchen Zhang, Rae Kang
 * */
@@ -40,8 +41,15 @@ public class Submission {
 
         this.fids = new ArrayList<>();
 
-        if(!fids.isEmpty()){
-            this.fids.add(Integer.parseInt(fids));
+        if (!fids.isEmpty()) {
+            // remove brackets if necessary
+            if (fids.startsWith("[") && fids.endsWith("]"))
+                fids = fids.substring(1, fids.length() - 1);
+
+            // parse all FIDs
+            if (fids.contains(","))
+                for (String s : fids.split(","))
+                    this.fids.add(Integer.parseInt(s.trim()));
         }
 
         this.timestamp = new Date(Long.valueOf(timestamp) * 1000);
