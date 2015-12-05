@@ -86,6 +86,8 @@ public class FeedbackTwoActivity extends Activity {
                         submission.downvote++;
                     }
 
+                    
+
                     date = new Date();
 
                     Feedback fb = new Feedback(0,sid,uid, whatYouHear, feedback, date.toString());
