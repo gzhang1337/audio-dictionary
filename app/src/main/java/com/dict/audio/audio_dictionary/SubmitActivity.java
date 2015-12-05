@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,9 +58,14 @@ public class SubmitActivity extends Activity {
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
         time = System.currentTimeMillis() / 1000;
 
-
-        //unique audio file to save in the directory using the timestamp
-        outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
+        // ensure AudioRecording folder is created
+        File audioFolder = new File(outputFile + "/AudioRecording/");
+        if (!audioFolder.mkdirs() && !audioFolder.isDirectory()) {
+            outputFile = outputFile + "/" + time.toString() + ".3gp";
+        } else {
+            //unique audio file to save in the directory using the timestamp
+            outputFile = outputFile + "/AudioRecording/" + time.toString() + ".3gp";
+        }
 
         //TODO how to record an audio.
         recordButton = (Button) findViewById(R.id.startRecord);
