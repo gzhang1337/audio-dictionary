@@ -1,5 +1,6 @@
 package com.dict.audio.audio_dictionary;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
@@ -43,10 +45,14 @@ public class ProfileActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profilescreen);
+
         final Intent starter = getIntent();
         if (starter != null) {
-            TextView userName = (TextView) findViewById(R.id.username);
-            userName.setText(starter.getStringExtra(MainActivity.USER_ID).toString());
+            String user = starter.getStringExtra(MainActivity.USER_ID);
+
+            TextView userText = (TextView) findViewById(R.id.username);
+            userText.setText("Welcome back, " + user);
+
             listVals = new ArrayList<String>();
             //TODO query database for number of tokens current user has
             tokens = (TextView) findViewById(R.id.numTokens);
@@ -83,6 +89,12 @@ public class ProfileActivity extends ListActivity {
             mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setActionBar(toolbar);
+
+        ActionBar ab = getActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -98,10 +110,8 @@ public class ProfileActivity extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -113,7 +123,7 @@ public class ProfileActivity extends ListActivity {
         Submission currentSubmission = currSubs.get(position);
         Intent intent = new Intent(this, MyPronunciationActivity.class);
         intent.putExtra("SubmissionId", currentSubmission.sid);
-        intent.putExtra("Word",selectedItem);
+        intent.putExtra("Word", selectedItem);
         startActivityForResult(intent, 1);
     }
 //    @Override
@@ -134,7 +144,7 @@ public class ProfileActivity extends ListActivity {
 //    }
     private void updateTokens() {
         currUser = db.getUserByUid(currUser.uid);
-        tokens.setText(Integer.toString(currUser.tokens));
+        tokens.setText("You have " + Integer.toString(currUser.tokens) + " tokens left");
     }
     private void updatePronouns() {
         currSubs = db.getUserSubmissions(currUser);

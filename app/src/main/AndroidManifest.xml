@@ -26,6 +26,7 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
+            android:parentActivityName="com.dict.audio.audio_dictionary.MainActivity" >
         </activity>
         <activity
             android:name=".MyPronunciationActivity"

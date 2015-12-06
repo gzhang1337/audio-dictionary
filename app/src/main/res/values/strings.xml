@@ -2,8 +2,9 @@
     <string name="app_name">Audio Dictionary</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
     <string name="title_activity_sign_up">Sign Up</string>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile">My Profile</string>
     <string name="title_activity_pronoun">MyPronunciationActivity</string>
     <string name="title_activity_feedback_one">FeedbackOneActivity</string>
     <string name="title_activity_feedback_two">FeedbackTwoActivity</string>
