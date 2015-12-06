@@ -78,7 +78,7 @@ public class FeedbackTwoActivity extends Activity {
                 public void onClick(View v) {
                     //TODO save the feedback in a persistent state somehow
 
-                    whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString();
+                    whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString().trim();
                     feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString();
 
                     if(whatYouHear.equals(submissionWord)){
