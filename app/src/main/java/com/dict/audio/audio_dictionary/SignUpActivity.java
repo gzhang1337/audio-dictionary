@@ -42,9 +42,9 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String user = userEdit.getText().toString();
-                        String pass = userEdit.getText().toString();
-                        String passConfirm = userEdit.getText().toString();
-                        String email = userEdit.getText().toString();
+                        String pass = passEdit.getText().toString();
+                        String passConfirm = passConfirmEdit.getText().toString();
+                        String email = emailEdit.getText().toString();
 
                         if (user.length() > 0 && pass.length() > 0 && passConfirm.length() > 0 && email.length() > 0) {
 
