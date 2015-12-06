@@ -26,6 +26,7 @@ import java.io.IOException;
 /*
 * Created and implemented by Yinchen Zhang, Rae Kang
 * */
+
 /**
  * This activity is after the user clicks which item to be give back to.
  * Word/Phrase is the title and an audio is playable to hear.
@@ -53,7 +54,7 @@ public class FeedbackTwoActivity extends Activity {
         setContentView(R.layout.feedback2);
         Intent starter = getIntent();
 
-        uid = starter.getIntExtra("UID",uid);
+        uid = starter.getIntExtra("UID", uid);
         sid = starter.getIntExtra("SID", sid);
         submissionWord = starter.getStringExtra("Word");
         db = DatabaseHelper.getInstance(this);
@@ -62,10 +63,10 @@ public class FeedbackTwoActivity extends Activity {
         outputFile = submission.audio;
 
 
-        if (starter!=null) {
+        if (starter != null) {
             TextView pron = (TextView) findViewById(R.id.pronName);
             pron.setText(submissionWord);
-            seekbar = (SeekBar)findViewById(R.id.seekBarPlay);
+            seekbar = (SeekBar) findViewById(R.id.seekBarPlay);
             seekbar.setClickable(false);
 
             Button submit = (Button) findViewById(R.id.submitFeedback);
@@ -75,24 +76,27 @@ public class FeedbackTwoActivity extends Activity {
                     //TODO save the feedback in a persistent state somehow
 
                     whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString().trim();
-                    feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString();
+                    feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString().trim();
 
-                    // require at least one piece of feedback (word guess)
+                    // require both pieces of feedback (word guess)
                     if (whatYouHear.length() == 0) {
                         Toast.makeText(FeedbackTwoActivity.this, "Please enter what you hear.", Toast.LENGTH_SHORT).show();
                         return;
+                    } else if (feedback.length() == 0) {
+                        Toast.makeText(FeedbackTwoActivity.this, "Please enter specific feedback.", Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
-                    if(whatYouHear.equals(submissionWord)){
+                    if (whatYouHear.equals(submissionWord)) {
                         submission.upvote++;
-                    }else{
+                    } else {
                         submission.downvote++;
                     }
-                    
-                    Long tsLong = System.currentTimeMillis()/1000;
+
+                    Long tsLong = System.currentTimeMillis() / 1000;
                     String ts = tsLong.toString();
 
-                    Feedback newFeedback = new Feedback(0,sid,uid, whatYouHear, feedback, ts);
+                    Feedback newFeedback = new Feedback(0, sid, uid, whatYouHear, feedback, ts);
 
                     db.addFeedback(newFeedback);
 
@@ -106,11 +110,11 @@ public class FeedbackTwoActivity extends Activity {
                     values.put(Submission.Entry.KEY_DOWNVOTE, submission.downvote);
 
                     db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_FIDS
-                        +" = ?", new String[] {String.valueOf(submission.fids)});
+                            + " = ?", new String[]{String.valueOf(submission.fids)});
                     db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_UPVOTE
-                            +" = ?", new String[] {String.valueOf(submission.upvote)});
+                            + " = ?", new String[]{String.valueOf(submission.upvote)});
                     db.getWritableDatabase().update("submissions", values, Submission.Entry.KEY_DOWNVOTE
-                            +" = ?", new String[] {String.valueOf(submission.downvote)});
+                            + " = ?", new String[]{String.valueOf(submission.downvote)});
 
                     //TODO update the user token
 
@@ -119,7 +123,7 @@ public class FeedbackTwoActivity extends Activity {
                     user.tokens++;
 
                     //TODO update the user table
-                    db.updateUserTokens(user.uid,user.tokens);
+                    db.updateUserTokens(user.uid, user.tokens);
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
@@ -131,14 +135,12 @@ public class FeedbackTwoActivity extends Activity {
                 public void onClick(View v) {
                     if (playing) {
                         stopPlaying();
-                    }
-                    else {
+                    } else {
                         startPlaying();
                     }
                 }
             });
-        }
-        else {
+        } else {
             Log.e(MainActivity.TAG, "FeedBackTwoActivity started invalidly");
             return;
         }
@@ -189,14 +191,13 @@ public class FeedbackTwoActivity extends Activity {
                 @Override
                 public void run() {
                     int currentPosition = 0;
-                    while(currentPosition<duration && mPlayer != null) {
+                    while (currentPosition < duration && mPlayer != null) {
                         try {
                             Thread.sleep(1000);
-                        }
-                        catch (InterruptedException e) {
+                        } catch (InterruptedException e) {
                             return;
                         }
-                        if(mPlayer!=null) {
+                        if (mPlayer != null) {
                             currentPosition = mPlayer.getCurrentPosition();
                             seekbar.setProgress(currentPosition);
                         }
@@ -207,6 +208,7 @@ public class FeedbackTwoActivity extends Activity {
             Log.e(MainActivity.TAG, "prepare() failed");
         }
     }
+
     private void stopPlaying() {
         if (!mPlayer.isPlaying()) {
             mPlayer.stop();
