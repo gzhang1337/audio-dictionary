@@ -47,8 +47,8 @@ public class MyPronunciationActivity extends ListActivity {
             TextView up = (TextView) findViewById(R.id.goodVote);
             TextView down = (TextView) findViewById(R.id.badVote);
 
-            up.setText(mSubmission.upvote);
-            down.setText(mSubmission.downvote);
+            up.setText("" + mSubmission.upvote);
+            down.setText("" + mSubmission.downvote);
 
             ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
 
