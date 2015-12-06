@@ -293,4 +293,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+
+    public void updateUserTokens(int uid,int tokens) {
+        SQLiteDatabase db = getWritableDatabase();
+        String UPDATE = String.format("UPDATE %s SET %s=%s WHERE %s='%s';",
+                User.Entry.TABLE_NAME,
+                User.Entry.KEY_TOKENS,
+                tokens,
+                User.Entry._ID,
+                uid);
+        db.execSQL(UPDATE);
+    }
 }

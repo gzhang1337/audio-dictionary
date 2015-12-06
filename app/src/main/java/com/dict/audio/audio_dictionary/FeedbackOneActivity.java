@@ -38,16 +38,14 @@ public class FeedbackOneActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedbackscreennumone);
         db = DatabaseHelper.getInstance(this);
-
+        listVals = new ArrayList<String>();
         Intent starter = getIntent();
-        uid = starter.getIntExtra("UID",uid);
+        uid = starter.getIntExtra("UID", uid);
         User currUser = db.getUserByUid(uid);
         currSubs = db.getAllSubmissions();
-        listVals = ProfileActivity.convertSubList(currSubs);
+        convertSubList(currSubs);
         mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
         setListAdapter(mAdapter);
-
-        //TODO need to fetch all the submissions from the DB to populate the list
     }
 
     @Override
@@ -81,5 +79,11 @@ public class FeedbackOneActivity extends ListActivity {
         intent.putExtra("UID",currentSubmission.uid);
         intent.putExtra("Word",selectedItem);
         startActivityForResult(intent, 1);
+    }
+    private void convertSubList(ArrayList<Submission> in) {
+        listVals.clear();
+        for (Submission ele: in ) {
+            listVals.add(ele.word);
+        }
     }
 }

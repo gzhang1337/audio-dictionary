@@ -3,6 +3,7 @@ package com.dict.audio.audio_dictionary;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +31,13 @@ import java.util.List;
 
 public class ProfileActivity extends ListActivity {
 
+    public final int GET_FEEDBACK = 1;
+    public final int GIVE_FEEDBACK = 2;
     private ArrayAdapter<String> mAdapter;
     private List<String> listVals;
     private DatabaseHelper db;
     private ArrayList<Submission> currSubs;
+    private TextView tokens;
     private User currUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,14 @@ public class ProfileActivity extends ListActivity {
         setContentView(R.layout.profilescreen);
         final Intent starter = getIntent();
         if (starter != null) {
-            final TextView userName = (TextView) findViewById(R.id.username);
+            TextView userName = (TextView) findViewById(R.id.username);
             userName.setText(starter.getStringExtra(MainActivity.USER_ID).toString());
-
+            listVals = new ArrayList<String>();
             //TODO query database for number of tokens current user has
-
+            tokens = (TextView) findViewById(R.id.numTokens);
             db = DatabaseHelper.getInstance(this);
             currUser = db.getUserByName(starter.getStringExtra(MainActivity.USER_ID).toString());
-            TextView tokens = (TextView) findViewById(R.id.numTokens);
-            tokens.setText(Integer.toString(currUser.tokens));
+            updateTokens();
             //button for giving a feedback and receiving a feedback
             Button giveFeedback = (Button) findViewById(R.id.giveFeedback);
             Button getFeedback = (Button) findViewById(R.id.useTokens);
@@ -73,11 +76,10 @@ public class ProfileActivity extends ListActivity {
 
                     Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
                     intent.putExtra("UserId",currUser.uid);
-                    startActivityForResult(intent,1);
+                    startActivityForResult(intent,GET_FEEDBACK);
                 }
             });
-            currSubs = db.getUserSubmissions(currUser);
-            listVals = convertSubList(currSubs);
+            updatePronouns();
             mAdapter = new ArrayAdapter<String>(this, R.layout.row_layout,R.id.pronounWord,listVals);
             setListAdapter(mAdapter);
         }
@@ -110,15 +112,49 @@ public class ProfileActivity extends ListActivity {
         String selectedItem = (String) getListView().getItemAtPosition(position);
         Submission currentSubmission = currSubs.get(position);
         Intent intent = new Intent(this, MyPronunciationActivity.class);
-        intent.putExtra("SubmissionId",currentSubmission.sid);
+        intent.putExtra("SubmissionId", currentSubmission.sid);
         intent.putExtra("Word",selectedItem);
         startActivityForResult(intent, 1);
     }
-    protected static List<String> convertSubList(ArrayList<Submission> in) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (Submission ele: in ) {
-            result.add(ele.word);
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // Check which request we're responding to
+//        if (requestCode == GET_FEEDBACK ) {
+//            // Make sure the request was successful
+//            if (resultCode == RESULT_OK) {
+//                updateTokens();
+//                updatePronouns();
+//            }
+//        }
+//        else if (requestCode == GIVE_FEEDBACK) {
+//            if (requestCode == RESULT_OK){
+//               updateTokens();
+//            }
+//        }
+//    }
+    private void updateTokens() {
+        currUser = db.getUserByUid(currUser.uid);
+        tokens.setText(Integer.toString(currUser.tokens));
+    }
+    private void updatePronouns() {
+        currSubs = db.getUserSubmissions(currUser);
+        convertSubList(currSubs);
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
         }
-        return result;
+    }
+
+    protected  void convertSubList(ArrayList<Submission> in) {
+        listVals.clear();
+        for (Submission ele: in ) {
+            listVals.add(ele.word);
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTokens();
+        updatePronouns();
+        Log.e(MainActivity.TAG,"ProfileActivity onResume called");
     }
 }
