@@ -38,7 +38,7 @@ public class FeedbackTwoActivity extends Activity {
     private SeekBar seekbar;
     private int uid;
     private int sid;
-    private boolean playing = false;
+    private boolean playing = false, playedYet = false;
     private String submissionWord;
     private String whatYouHear;
     private String feedback;
@@ -74,6 +74,11 @@ public class FeedbackTwoActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     //TODO save the feedback in a persistent state somehow
+                    // require listening to pronunciation at least once
+                    if (!playedYet) {
+                        Toast.makeText(FeedbackTwoActivity.this, "Please listen to the pronunciation.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString().trim();
                     feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString().trim();
@@ -133,6 +138,7 @@ public class FeedbackTwoActivity extends Activity {
             playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    playedYet = true;
                     if (playing) {
                         stopPlaying();
                     } else {
