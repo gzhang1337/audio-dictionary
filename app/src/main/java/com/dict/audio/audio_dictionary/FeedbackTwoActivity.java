@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class FeedbackTwoActivity extends Activity {
         submissionWord = starter.getStringExtra("Word");
         db = DatabaseHelper.getInstance(this);
         submission = db.getSubmission(sid);
+
         outputFile = submission.audio;
 
 
@@ -71,8 +73,8 @@ public class FeedbackTwoActivity extends Activity {
                 public void onClick(View v) {
                     //TODO save the feedback in a persistent state somehow
 
-                    whatYouHear = findViewById(R.id.textYouHear).toString();
-                    feedback = findViewById(R.id.giveFeedback).toString();
+                    whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString().trim();
+                    feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString();
 
                     if(whatYouHear.equals(submissionWord)){
                         submission.upvote++;

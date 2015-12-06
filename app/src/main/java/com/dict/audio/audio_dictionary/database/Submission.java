@@ -33,7 +33,7 @@ public class Submission {
                       int upvote, int downvote) {
         this.sid = sid;
         this.uid = uid;
-        this.word = word;
+        this.word = word.trim();
         this.audio = audio;
         this.upvote = upvote;
         this.downvote = downvote;
