@@ -39,6 +39,7 @@ public class SignUpActivity extends Activity {
                             User newUser = new User(0, userID.getText().toString(),passWord.getText().toString(),3);
                             db.addUser(newUser);
                             Toast.makeText(getApplicationContext(),"Sign up successful",Toast.LENGTH_LONG).show();
+                            finish();
                         }
                         else {
                             Toast.makeText(getApplicationContext(),"Passwords do not match",Toast.LENGTH_LONG).show();
