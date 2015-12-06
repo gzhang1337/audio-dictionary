@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Feedback;
@@ -75,6 +76,12 @@ public class FeedbackTwoActivity extends Activity {
 
                     whatYouHear = ((EditText) findViewById(R.id.textYouHear)).getText().toString().trim();
                     feedback = ((EditText) findViewById(R.id.giveFeedback)).getText().toString();
+
+                    // require at least one piece of feedback (word guess)
+                    if (whatYouHear.length() == 0) {
+                        Toast.makeText(FeedbackTwoActivity.this, "Please enter what you hear.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     if(whatYouHear.equals(submissionWord)){
                         submission.upvote++;
