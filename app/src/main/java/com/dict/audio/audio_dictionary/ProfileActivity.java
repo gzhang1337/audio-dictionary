@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dict.audio.audio_dictionary.database.DatabaseHelper;
 import com.dict.audio.audio_dictionary.database.Submission;
@@ -73,7 +74,10 @@ public class ProfileActivity extends ListActivity {
             getFeedback.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (updateTokens() <= 0) {
+                        Toast.makeText(ProfileActivity.this, "Please give feedback to receive more tokens.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
                     intent.putExtra("UserId",currUser.uid);
                     startActivityForResult(intent,GET_FEEDBACK);
@@ -132,9 +136,10 @@ public class ProfileActivity extends ListActivity {
 //            }
 //        }
 //    }
-    private void updateTokens() {
+    private int updateTokens() {
         currUser = db.getUserByUid(currUser.uid);
         tokens.setText(Integer.toString(currUser.tokens));
+        return currUser.tokens;
     }
     private void updatePronouns() {
         currSubs = db.getUserSubmissions(currUser);
