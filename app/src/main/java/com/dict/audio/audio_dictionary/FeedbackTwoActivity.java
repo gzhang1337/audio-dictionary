@@ -67,11 +67,6 @@ public class FeedbackTwoActivity extends Activity {
             seekbar = (SeekBar)findViewById(R.id.seekBarPlay);
             seekbar.setClickable(false);
 
-            //final int amtToUpdate = duration / 100;
-            //final Timer mTimer= new Timer();
-
-
-
             Button submit = (Button) findViewById(R.id.submitFeedback);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,14 +112,7 @@ public class FeedbackTwoActivity extends Activity {
                     user.tokens++;
 
                     //TODO update the user table
-
-                    ContentValues values2 = new ContentValues();
-                    values2.put(User.Entry.KEY_TOKENS, user.tokens);
-
-                    db.getWritableDatabase().update("users", values2, User.Entry.KEY_TOKENS
-                            + " = ?", new String[]{String.valueOf(user.tokens)});
-
-
+                    db.updateUserTokens(user.uid,user.tokens);
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();

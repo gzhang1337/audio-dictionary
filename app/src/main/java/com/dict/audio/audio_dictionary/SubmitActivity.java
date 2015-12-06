@@ -132,14 +132,7 @@ public class SubmitActivity extends Activity {
                             user.tokens--;
 
                             //TODO update the user table
-
-                            ContentValues values = new ContentValues();
-                            values.put(User.Entry.KEY_TOKENS, user.tokens);
-
-                            db.getWritableDatabase().update("users", values, User.Entry.KEY_TOKENS
-                                    + " = ?", new String[]{String.valueOf(user.tokens)});
-
-
+                            db.updateUserTokens(user.uid,user.tokens);
                             Intent returnIntent = new Intent();
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();

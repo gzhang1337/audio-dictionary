@@ -84,7 +84,7 @@ public class MyPronunciationActivity extends ListActivity {
         ArrayList<String> result = new ArrayList<String>();
         if (in != null)
             for (Feedback ele : in) {
-                result.add(ele.text);
+                result.add(ele.word);
             }
         return result;
     }

@@ -19,7 +19,9 @@
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName="com.dict.audio.audio_dictionary.MainActivity" >
+
         </activity>
         <activity
             android:name=".ProfileActivity"
