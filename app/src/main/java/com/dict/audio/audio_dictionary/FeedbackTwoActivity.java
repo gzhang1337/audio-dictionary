@@ -92,7 +92,7 @@ public class FeedbackTwoActivity extends Activity {
                         return;
                     }
 
-                    if (whatYouHear.equals(submissionWord)) {
+                    if (whatYouHear.toLowerCase().equals(submissionWord.toLowerCase())) {
                         submission.upvote++;
                     } else {
                         submission.downvote++;
