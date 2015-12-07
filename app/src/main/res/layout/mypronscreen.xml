@@ -31,9 +31,11 @@
         android:id="@+id/goodVote"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_alignTop="@+id/badVote"
+        android:textSize="30dp"
+        android:textIsSelectable="true"
+        android:layout_alignTop="@+id/imageView"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_marginTop="0dp" />
+        android:layout_alignBottom="@+id/imageView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,9 +44,10 @@
         android:id="@+id/badVote"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="85dp"
+        android:textSize="30dp"
         android:layout_alignTop="@+id/imageView2"
         android:layout_toEndOf="@+id/imageView2"
-        android:layout_marginTop="15dp" />
+        android:layout_alignBottom="@+id/imageView2" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -60,9 +63,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:background="@drawable/thumbsdown"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="27dp"
         android:layout_below="@+id/pronWord"
-        android:layout_toEndOf="@+id/goodVote" />
+        android:layout_alignEnd="@+id/pronWord" />
 
     <ListView
         android:layout_width="wrap_content"
